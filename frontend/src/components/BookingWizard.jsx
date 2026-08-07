@@ -292,14 +292,12 @@ export default function BookingWizard({ car, searchParams, onClose, onSubmitSucc
           <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-3 flex items-center justify-between text-white font-semibold text-xs">
             {/* W Logo */}
             <div className="flex items-center gap-2">
-              <div className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100" onClick={onClose}>
-                <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
-                  W
-                </span>
-                <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
-                  LUXURY RENTAL
-                </span>
-              </div>
+              <img
+                src="/assets/logos/w_luxury_logo_clean.png"
+                alt="W Luxury Logo"
+                onClick={onClose}
+                className="h-10 md:h-12 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
+              />
             </div>
 
             {/* Right Header Navigation */}

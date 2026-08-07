@@ -105,21 +105,16 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
         )}
         {/* --- DESKTOP RESULTS HEADER --- */}
         <header ref={headerRef} className="hidden md:block w-full bg-black text-white select-none z-50 sticky top-0 border-b border-neutral-800/80 shadow-md">
-          <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-3 h-[64px]">
+          <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-2 h-[76px]">
             <div className="flex items-center justify-between h-full">
               {/* Logo */}
               <div className="flex items-center gap-4">
-                <div
+                <img
+                  src="/assets/logos/w_luxury_logo_clean.png"
+                  alt="W Luxury Logo"
                   onClick={onResetView}
-                  className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100"
-                >
-                  <span className="font-sans font-bold text-[40px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-1">
-                    W
-                  </span>
-                  <span className="text-[6.5px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
-                    LUXURY RENTAL
-                  </span>
-                </div>
+                  className="h-12 md:h-14 lg:h-16 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
+                />
               </div>
 
               {/* Search Capsule (Shifted to right) */}
@@ -197,7 +192,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
 
 
         {/* Main Navbar */}
-        <div className="w-full bg-black/60 md:bg-black/30 backdrop-blur-md text-white py-3 h-[64px]">
+        <div className="w-full bg-black/60 md:bg-black/30 backdrop-blur-md text-white py-2.5 h-[76px]">
           <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 h-full flex flex-col justify-center">
 
             {/* --- MOBILE LAYOUT --- */}
@@ -206,17 +201,12 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                 <button onClick={() => setIsSidebarOpen(true)} className="text-white hover:text-[#C5A059] transition-colors p-1 -ml-1">
                   <CustomMenuIcon className="w-6 h-6" />
                 </button>
-                <div
+                <img
+                  src="/assets/logos/w_luxury_logo_clean.png"
+                  alt="W Luxury Logo"
                   onClick={onResetView}
-                  className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100"
-                >
-                  <span className="font-sans font-bold text-[28px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-1">
-                    W
-                  </span>
-                  <span className="text-[4.5px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
-                    LUXURY RENTAL
-                  </span>
-                </div>
+                  className="h-10 md:h-12 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
+                />
               </div>
               <div className="flex items-center gap-5 text-[14px] font-normal text-white tracking-tight">
                 <button onClick={onOurFleetClick} className="hover:text-[#C5A059] transition-colors">
@@ -235,17 +225,12 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                 <button onClick={() => setIsSidebarOpen(true)} className="text-white hover:text-[#C5A059] transition-colors p-2 -ml-2">
                   <CustomMenuIcon className="w-7 h-7" />
                 </button>
-                <div
+                <img
+                  src="/assets/logos/w_luxury_logo_clean.png"
+                  alt="W Luxury Logo"
                   onClick={onResetView}
-                  className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100"
-                >
-                  <span className="font-sans font-bold text-[46px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-1">
-                    W
-                  </span>
-                  <span className="text-[7.5px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
-                    LUXURY RENTAL
-                  </span>
-                </div>
+                  className="h-12 md:h-14 lg:h-16 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
+                />
               </div>
 
               {/* Right Side: Navigation Links */}
