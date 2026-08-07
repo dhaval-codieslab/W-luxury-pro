@@ -313,7 +313,7 @@ const BoutiqueCarousel = () => {
     const track = trackRef.current;
     if (!section || !track) return;
 
-    const getScrollAmount = () => track.scrollWidth - window.innerWidth;
+    const getScrollAmount = () => track.scrollWidth - (window.innerWidth * 0.9);
 
     ScrollTrigger.create({
       id: "boutique-carousel",
@@ -348,56 +348,56 @@ const BoutiqueCarousel = () => {
   };
 
   return (
-    <div ref={sectionRef} className="w-full relative py-6 md:py-12 lg:py-20 bg-white border-t border-neutral-100 overflow-hidden h-screen flex flex-col justify-center">
+    <div ref={sectionRef} className="w-full relative py-10 md:py-16 bg-white border-t border-neutral-100 overflow-x-hidden min-h-screen flex flex-col justify-center">
       {/* Section Main Header */}
-      <div className="max-w-[1200px] mx-auto w-full relative z-10 shrink-0">
-        <h2 className="font-sans font-normal text-3xl md:text-6xl lg:text-[64px] text-[#191919] tracking-wide uppercase text-center leading-none mb-6 md:mb-12 lg:mb-16">
+      <div className="w-full md:w-[90%] mx-auto relative z-10 shrink-0">
+        <h2 className="font-sans font-normal text-3xl md:text-6xl lg:text-[64px] text-[#191919] tracking-wide uppercase text-center leading-[1.1] mb-6 md:mb-12 whitespace-nowrap">
           <span className="text-[#C5A059]">W</span> LUXURY CAR RENTAL WORLDWIDE
         </h2>
       </div>
 
-      {/* GSAP Scrolling Track */}
-      <div
-        ref={trackRef}
-        className="flex w-max"
-      >
-        {slides.map((slide, idx) => (
-          <div
-            key={idx}
-            className="w-[90vw] lg:w-[85vw] shrink-0 flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-16 pr-8 pl-6 md:pl-[5vw] lg:pl-[7.5vw]"
-          >
-            {/* Left Image */}
-            <div className="w-full lg:w-[55%] h-[200px] sm:h-[35vh] md:h-[45vh] lg:h-[60vh] relative overflow-hidden group shrink-0">
-              <img src={slide.image} alt={slide.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-[2s] ease-out" />
-            </div>
-
-            {/* Right Text Content */}
-            <div className={`w-full lg:w-[45%] flex flex-col justify-center pr-4 md:pr-12 lg:pr-16 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${activeSlide === idx ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: activeSlide === idx ? '150ms' : '0ms' }}>
-              <h3 className="font-sans font-normal text-[22px] md:text-[28px] lg:text-[34px] text-[#191919] mb-3 md:mb-6 tracking-wider uppercase leading-[1.2]">
-                {slide.title}
-              </h3>
-              <div className="text-[14px] md:text-[15px] text-[#555555] font-normal leading-[1.6] md:leading-[1.8] space-y-4 mb-6 md:mb-10 max-w-[480px]">
-                <p>{slide.desc}</p>
+      {/* GSAP Scrolling Track — constrained to 90% screen width */}
+      <div className="w-full md:w-[90%] mx-auto overflow-hidden">
+        <div
+          ref={trackRef}
+          className="flex w-max"
+        >
+          {slides.map((slide, idx) => (
+            <div
+              key={idx}
+              className="w-screen md:w-[90vw] shrink-0 flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-16 px-4 md:px-0"
+            >
+              {/* Left Image */}
+              <div className="w-full lg:w-[55%] h-[200px] sm:h-[35vh] md:h-[45vh] lg:h-[60vh] relative overflow-hidden group shrink-0">
+                <img src={slide.image} alt={slide.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-[2s] ease-out" />
               </div>
 
-              {/* Discover More Button */}
-              <button className="flex items-center gap-4 text-[#191919] hover:text-[#C5A059] transition-colors group cursor-pointer w-fit">
-                <div className="w-[42px] h-[42px] rounded-full border border-[#191919]/20 group-hover:border-[#C5A059] flex items-center justify-center transition-colors">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transform group-hover:translate-x-1 transition-transform">
-                    <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+              {/* Right Text Content */}
+              <div className={`w-full lg:w-[45%] flex flex-col justify-center pr-4 md:pr-8 lg:pr-12 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${activeSlide === idx ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: activeSlide === idx ? '150ms' : '0ms' }}>
+                <h3 className="font-sans font-normal text-[22px] md:text-[28px] lg:text-[34px] text-[#191919] mb-3 md:mb-6 tracking-wider uppercase leading-[1.2]">
+                  {slide.title}
+                </h3>
+                <div className="text-[14px] md:text-[15px] text-[#555555] font-normal leading-[1.6] md:leading-[1.8] space-y-4 mb-6 md:mb-10 max-w-[480px]">
+                  <p>{slide.desc}</p>
                 </div>
-                <span className="text-[11px] font-bold tracking-[0.2em] uppercase mt-0.5">Discover More</span>
-              </button>
+
+                {/* Discover More Button */}
+                <button className="flex items-center gap-4 text-[#191919] hover:text-[#C5A059] transition-colors group cursor-pointer w-fit">
+                  <div className="w-[42px] h-[42px] rounded-full border border-[#191919]/20 group-hover:border-[#C5A059] flex items-center justify-center transition-colors">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transform group-hover:translate-x-1 transition-transform">
+                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <span className="text-[11px] font-bold tracking-[0.2em] uppercase mt-0.5">Discover More</span>
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-        {/* Padding block at the end so the last slide doesn't touch edge */}
-        <div className="w-[10vw] lg:w-[15vw] shrink-0"></div>
+          ))}
+        </div>
       </div>
 
       {/* Pagination Container */}
-      <div className="max-w-[1200px] mx-auto mt-6 md:mt-12 px-6 flex justify-center lg:justify-start lg:pl-[7.5vw] w-full shrink-0">
+      <div className="w-full md:w-[90%] mx-auto mt-6 md:mt-12 flex justify-start shrink-0">
         <div className="relative flex items-center gap-4">
           {slides.map((_, idx) => (
             <button
@@ -521,97 +521,103 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
     }
     return { line1: title, line2: '' };
   };
-
   const { line1, line2 } = splitTitle(activeCar.title);
 
   return (
-    <div className="w-full bg-white text-neutral-900 py-6 md:py-8 px-6 text-center select-none relative z-10 border-t border-neutral-100 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto w-full">
+    <div className="w-full bg-white text-neutral-900 py-10 md:py-14 lg:py-16 px-4 md:px-0 text-center select-none relative z-10 border-t border-neutral-100 overflow-hidden">
+      <div className="w-full md:w-[90%] mx-auto">
         {/* Section Heading */}
-        <h2 className="font-sans font-normal text-3xl md:text-6xl lg:text-[64px] text-neutral-900 tracking-wide uppercase text-center leading-none mb-6">
+        <h2 className="font-sans font-normal text-3xl md:text-5xl lg:text-[56px] text-neutral-900 tracking-wide uppercase text-center leading-tight mt-2 md:mt-4 mb-8 md:mb-12">
           BROWSE POPULAR TYPES
         </h2>
 
-        {/* Large Featured Area */}
-        <div ref={featuredRef} className="flex flex-col items-center mb-4 max-w-[800px] mx-auto">
-          {/* Image */}
-          <div className="relative w-full max-w-[420px] h-[140px] md:h-[175px] flex items-center justify-center mb-2">
+        {/* Large Featured Area (Side-by-Side inside a Compact Luxury Card Container) */}
+        <div ref={featuredRef} className="bg-[#f8f8f8] rounded-[24px] p-4 sm:p-5 md:p-6 lg:p-7 border border-neutral-200/70 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 mb-4 w-full relative overflow-hidden">
+          {/* Subtle Background Glow Accent */}
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-[#C5A059]/10 rounded-full blur-[80px] pointer-events-none" />
+
+          {/* Left Side: Car Image Container */}
+          <div className="w-full md:w-[50%] h-[210px] md:h-[260px] lg:h-[290px] flex items-center justify-center relative shrink-0 z-10">
             <img
               src={activeCar.image}
               alt={activeCar.title}
-              className="relative z-10 max-h-[130px] md:max-h-[165px] w-full object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-[1.03]"
+              className="relative z-10 max-h-[200px] md:max-h-[250px] lg:max-h-[280px] w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.14)] scale-105"
             />
           </div>
 
-          {/* Title */}
-          <h2 className="font-sans font-normal text-xl md:text-2xl lg:text-[30px] text-neutral-900 tracking-wide uppercase leading-tight mb-0.5 text-center">
-            {line1}
-            {line2 && <span className="block mt-0.5">{line2}</span>}
-          </h2>
+          {/* Right Side: Text & Actions */}
+          <div className="w-full md:w-[50%] flex flex-col items-center md:items-start text-center md:text-left z-10">
+            {/* Subtitle Badge */}
+            <span className="text-[11px] md:text-[12px] font-bold text-[#C5A059] uppercase tracking-widest mb-1 block">
+              {activeCar.subtitle}
+            </span>
 
-          {/* Subtitle */}
-          <span className="text-[12px] md:text-[13px] text-neutral-400 font-sans block mb-2 text-center">
-            {activeCar.subtitle}
-          </span>
+            {/* Title */}
+            <h2 className="font-sans font-bold text-xl md:text-2xl lg:text-[28px] text-[#191919] tracking-tight uppercase leading-tight mb-2">
+              {line1}
+              {line2 && <span className="block text-[#191919]/90 mt-0.5">{line2}</span>}
+            </h2>
 
-          {/* Specs Row */}
-          <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1 text-[11px] md:text-[12px] font-bold text-neutral-800 mb-2.5 w-full">
-            <div className="flex items-center gap-1.5 whitespace-nowrap bg-neutral-50 px-3 py-0.5 rounded-full border border-neutral-200/50 shadow-sm">
-              <User className="w-3.5 h-3.5 text-neutral-700 stroke-[2.5]" />
-              <span>{activeCar.seats} seaters</span>
+            {/* Specs Badges Row */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 text-[11px] font-bold text-neutral-800 mb-3 w-full">
+              <div className="flex items-center gap-1.5 bg-white text-[#191919] px-3 py-1 rounded-full border border-neutral-200 shadow-sm">
+                <User className="w-3.5 h-3.5 text-neutral-800 stroke-[2.5]" />
+                <span>{activeCar.seats} seaters</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white text-[#191919] px-3 py-1 rounded-full border border-neutral-200 shadow-sm">
+                <Briefcase className="w-3.5 h-3.5 text-neutral-800 stroke-[2.5]" />
+                <span>{activeCar.suitcases} bags</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white text-[#191919] px-3 py-1 rounded-full border border-neutral-200 shadow-sm">
+                {activeCar.transmission.toLowerCase().includes('range') ? (
+                  <svg className="w-3.5 h-3.5 text-neutral-800 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
+                    <line x1="22" y1="11" x2="22" y2="13" />
+                  </svg>
+                ) : (
+                  <span className="w-3.5 h-3.5 bg-neutral-900 text-white rounded-[2px] flex items-center justify-center text-[8px] font-black leading-none">A</span>
+                )}
+                <span>{activeCar.transmission}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 whitespace-nowrap bg-neutral-50 px-3 py-0.5 rounded-full border border-neutral-200/50 shadow-sm">
-              <Briefcase className="w-3.5 h-3.5 text-neutral-700 stroke-[2.5]" />
-              <span>{activeCar.suitcases} bags</span>
-            </div>
-            <div className="flex items-center gap-1.5 whitespace-nowrap bg-neutral-50 px-3 py-0.5 rounded-full border border-neutral-200/50 shadow-sm">
-              {activeCar.transmission.toLowerCase().includes('range') ? (
-                <svg className="w-3.5 h-3.5 text-neutral-700 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
-                  <line x1="22" y1="11" x2="22" y2="13" />
-                </svg>
-              ) : (
-                <span className="w-3.5 h-3.5 bg-neutral-800 text-white rounded-[2px] flex items-center justify-center text-[8px] font-black leading-none">A</span>
-              )}
-              <span>{activeCar.transmission}</span>
-            </div>
+
+            {/* Description */}
+            <p className="text-[12px] md:text-[13px] text-neutral-600 font-sans leading-snug max-w-[440px] mb-3">
+              {activeCar.desc}
+            </p>
+
+            {/* CTA Button */}
+            <button
+              type="button"
+              onClick={onScrollToListings}
+              className="bg-[#191919] hover:bg-[#C5A059] text-white font-bold text-[11px] md:text-[12px] tracking-wider uppercase py-2.5 px-6 rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md flex items-center gap-2 group/btn"
+            >
+              Check availability
+              <ArrowRight className="w-3.5 h-3.5 text-white transition-colors" />
+            </button>
           </div>
-
-          {/* Description */}
-          <p className="text-[12px] md:text-[13px] text-neutral-500 leading-relaxed max-w-[420px] text-center mx-auto mb-3 font-sans">
-            {activeCar.desc}
-          </p>
-
-          {/* CTA */}
-          <button
-            type="button"
-            onClick={onScrollToListings}
-            className="bg-[#191919] hover:bg-black text-white font-bold text-[11px] md:text-[12px] tracking-wide py-1.5 px-6 rounded-full transition-all hover:scale-[1.02] active:scale-95 shadow-md flex items-center justify-center"
-          >
-            Check availability
-          </button>
         </div>
 
         {/* Thumbnail Gallery Slider */}
-        <div className="w-full mt-6 border-t border-neutral-200/50 pt-6 relative px-0 md:px-12">
-          {/* Left chevron arrow */}
+        <div className="w-full mt-2 border-t border-neutral-200/50 pt-3 relative">
+          {/* Left chevron arrow positioned outside in left margin */}
           <button
             type="button"
             onClick={() => setThumbStartIdx(prev => Math.max(0, prev - 1))}
-            className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
-              thumbStartIdx === 0 ? 'opacity-30 pointer-events-none' : 'opacity-100'
+            className={`hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
+              thumbStartIdx === 0 ? 'opacity-30 pointer-events-none' : 'opacity-100 hover:scale-110'
             }`}
             aria-label="Previous thumbnails"
           >
             <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
           </button>
 
-          {/* Right chevron arrow */}
+          {/* Right chevron arrow positioned outside in right margin */}
           <button
             type="button"
             onClick={() => setThumbStartIdx(prev => Math.min(2, prev + 1))}
-            className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
-              thumbStartIdx === 2 ? 'opacity-30 pointer-events-none' : 'opacity-100'
+            className={`hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
+              thumbStartIdx === 2 ? 'opacity-30 pointer-events-none' : 'opacity-100 hover:scale-110'
             }`}
             aria-label="Next thumbnails"
           >
@@ -637,11 +643,11 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
                     }`}
                   >
                     {/* Thumbnail Image */}
-                    <div className="relative w-full h-[55px] flex items-center justify-center mb-2">
+                    <div className="relative w-full h-[75px] md:h-[80px] flex items-center justify-center mb-2">
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="max-h-[50px] max-w-full object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.08)] transition-transform duration-300"
+                        className="max-h-[68px] md:max-h-[74px] max-w-full object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
 
@@ -755,11 +761,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
       }
     });
 
-    // Translate the car container from 100vw to -100vw
+    // Continuous linear motion from right edge (60vw) to fully exiting left edge (-90vw)
     tl.fromTo(".car-container-animate", {
-      x: "100vw"
+      x: "60vw"
     }, {
-      x: "-100vw",
+      x: "-75vw",
       ease: "none"
     }, 0);
 
@@ -778,14 +784,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
     // Fade in/out the text
     tl.to(".car-text-animate", {
       opacity: 1,
-      duration: 0.5,
+      duration: 0.25,
       ease: "power1.inOut"
     }, 0)
       .to(".car-text-animate", {
         opacity: 0,
-        duration: 0.5,
+        duration: 0.25,
         ease: "power1.inOut"
-      }, 0.5);
+      }, 0.3);
 
   }, { scope: scrollAnimationRef, dependencies: [isDropdownMode] });
 
@@ -1187,14 +1193,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   const renderSearchWidget = () => {
     return (
       <div ref={widgetRef} className="w-full z-40 relative mb-4 pointer-events-auto">
-        <div className="flex flex-col md:flex-row gap-3 md:gap-4 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 w-full items-center">
           {/* Rental Dates */}
           <div 
             onClick={() => {
               setShowCalendarPopup(!showCalendarPopup);
               setShowTimePopup(false);
             }}
-            className="flex items-center justify-between bg-[#F4F5F6] rounded-[16px] px-6 py-2.5 flex-[1.2] cursor-pointer hover:bg-[#EBECEC] transition-colors"
+            className="flex items-center justify-between bg-[#F4F5F6] rounded-[16px] px-6 h-[64px] cursor-pointer hover:bg-[#EBECEC] transition-colors"
           >
             <div className="flex flex-col">
               <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Rental dates</span>
@@ -1216,19 +1222,19 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               setShowTimePopup(!showTimePopup);
               setShowCalendarPopup(false);
             }}
-            className="flex items-center bg-[#F4F5F6] rounded-[16px] flex-[1.5] relative"
+            className="flex items-center bg-[#F4F5F6] rounded-[16px] h-[64px] relative"
           >
             {/* Pick up time */}
-            <div className="flex flex-col justify-center px-6 py-2.5 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-l-[16px] transition-colors h-full">
+            <div className="flex flex-col justify-center px-6 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-l-[16px] transition-colors h-full">
               <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Pick up time</span>
               <span className="text-[16px] font-bold text-neutral-800">{pickupTime}</span>
             </div>
             
             {/* Divider */}
-            <div className="w-[1px] h-[36px] bg-neutral-200"></div>
+            <div className="w-[1px] h-[34px] bg-neutral-200"></div>
             
             {/* Drop-off time */}
-            <div className="flex flex-col justify-center px-6 py-2.5 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-r-[16px] transition-colors h-full">
+            <div className="flex flex-col justify-center px-6 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-r-[16px] transition-colors h-full">
               <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Drop-off time</span>
               <span className="text-[16px] font-bold text-neutral-800">{returnTime}</span>
             </div>
@@ -1283,7 +1289,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           {/* Show Cars Button */}
           <button 
             onClick={handleScrollToListings}
-            className="w-full md:w-auto bg-[#C5A059] hover:bg-[#B28F4B] text-white rounded-[16px] px-10 py-2.5 flex items-center justify-center font-bold text-[16px] transition-colors shadow-md"
+            className="w-full bg-[#C5A059] hover:bg-[#B28F4B] text-white rounded-[16px] h-[64px] flex items-center justify-center font-bold text-[16px] transition-colors shadow-md"
           >
             Show Cars
           </button>
@@ -1412,7 +1418,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           showStickySearch ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
-        <div className="max-w-[1100px] mx-auto px-6 flex items-center justify-between gap-6">
+        <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 flex items-center justify-between gap-6">
           {/* Logo Brand */}
           <div 
             onClick={handleScrollToListings}
@@ -1434,7 +1440,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 setShowCalendarPopup(!showCalendarPopup);
                 setShowTimePopup(false);
               }}
-              className="flex items-center justify-between bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700 rounded-[14px] px-5 py-2 flex-[1.2] cursor-pointer hover:bg-neutral-900 transition-colors"
+              className="flex items-center justify-between bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700 rounded-[14px] px-5 py-2 flex-1 cursor-pointer hover:bg-neutral-900 transition-colors"
             >
               <div className="flex flex-col text-left">
                 <span className="text-[10px] font-normal text-neutral-500 mb-0.5 uppercase tracking-wider">Rental dates</span>
@@ -1456,7 +1462,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 setShowTimePopup(!showTimePopup);
                 setShowCalendarPopup(false);
               }}
-              className="flex items-center bg-neutral-900/60 border border-neutral-800 rounded-[14px] flex-[1.5] relative"
+              className="flex items-center bg-neutral-900/60 border border-neutral-800 rounded-[14px] flex-1 relative"
             >
               {/* Pick up time */}
               <div className="flex flex-col justify-center px-5 py-2 flex-1 cursor-pointer hover:bg-neutral-900 rounded-l-[14px] transition-colors h-full text-left">
@@ -1637,7 +1643,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         {!isDropdownMode && (
           <>
             {/* Full-width Background Video banner */}
-            <div className="relative w-full h-[68vh] md:h-[73vh] lg:h-[78vh] min-h-[480px] overflow-hidden flex flex-col justify-center items-start px-6 md:px-12 lg:px-[10%] select-none z-0">
+            <div className="relative w-full h-[68vh] md:h-[73vh] lg:h-[78vh] min-h-[480px] overflow-hidden flex flex-col justify-center items-center px-6 md:px-12 lg:px-[10%] select-none z-0">
               <video
                 autoPlay
                 loop
@@ -1649,26 +1655,26 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 Your browser does not support the video tag.
               </video>
 
-              {/* Elegant Text Overlay matching Lucid Motors */}
-              <RevealOnScroll className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-12 lg:px-[10%] z-10 pointer-events-none">
+              {/* Elegant Text Overlay centered to screen */}
+              <RevealOnScroll className="absolute inset-0 flex flex-col justify-center items-center text-center px-6 md:px-12 lg:px-[10%] z-10 pointer-events-none">
                 <h1
-                  className="text-white text-[45px] md:text-[70px] lg:text-[85px] font-condensed font-normal tracking-tight leading-[1.1] mb-4 drop-shadow-md"
+                  className="text-white text-[45px] md:text-[70px] lg:text-[85px] font-condensed font-normal tracking-tight leading-[1.1] mb-4 drop-shadow-md text-center"
                 >
                   W Luxury Car Rental
                 </h1>
-                <p className="text-white text-base md:text-[20px] font-medium max-w-lg md:max-w-2xl leading-relaxed opacity-100 font-sans tracking-wide drop-shadow-md">
+                <p className="text-white text-base md:text-[20px] font-medium max-w-lg md:max-w-2xl leading-relaxed opacity-100 font-sans tracking-wide drop-shadow-md text-center mx-auto">
                   Choose from our range of top Luxury cars worldwide.
                 </p>
               </RevealOnScroll>
             </div>
 
             {/* Relocated Search Bar Widget below Video Banner */}
-            <div className="w-full max-w-[1100px] px-6 mx-auto mt-6 md:mt-8 mb-6 z-30 relative pointer-events-auto">
+            <div className="w-full md:w-[90%] px-4 md:px-0 mx-auto mt-6 md:mt-8 mb-6 z-30 relative pointer-events-auto">
               {renderSearchWidget()}
             </div>
 
             {/* Address & Contact Information Box directly beneath the Search Bar */}
-            <div className="w-full max-w-[1100px] px-6 mx-auto mb-16 z-10 relative">
+            <div className="w-full md:w-[90%] px-4 md:px-0 mx-auto mb-16 z-10 relative">
               <div className="flex flex-col md:flex-row gap-4 w-full text-left">
                 {/* Left Side: Stacked Phone and Hours Cards */}
                 <div className="w-full md:w-[40%] flex flex-col gap-4">
@@ -1677,8 +1683,8 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                     <span className="text-[10px] font-normal text-neutral-400/80 uppercase tracking-widest mb-1 font-sans">
                       Phone
                     </span>
-                    <a href="tel:+12129918002" className="text-lg md:text-xl font-bold text-white hover:text-[#C5A059] transition-colors leading-tight">
-                      +1 212 991 8002
+                    <a href="tel:+17182133279" className="text-lg md:text-xl font-bold text-white hover:text-[#C5A059] transition-colors leading-tight">
+                      (718) 213-3279
                     </a>
                   </div>
                   {/* Hours card */}
@@ -1699,7 +1705,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                       Address
                     </span>
                     <span className="text-lg md:text-[20px] font-bold text-white leading-snug">
-                      448 West 38th street, New York, NY 10018
+                      58 Throop Ave, Brooklyn, NY 11206
                     </span>
                   </div>
                   <p className="text-[11px] font-normal text-neutral-400/80 leading-relaxed mt-2 pt-2.5 border-t border-neutral-800/60">
@@ -1712,7 +1718,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         )}
 
         {isDropdownMode && (
-          <div className="w-full max-w-[1100px] px-6">
+          <div className="w-full md:w-[90%] px-4 md:px-0 mx-auto">
             {renderSearchWidget()}
           </div>
         )}
@@ -2064,7 +2070,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           <div
             ref={scrollAnimationRef}
             id="car-animation-section"
-            className="w-full h-[300vh] bg-transparent relative z-10 block"
+            className="w-full h-[200vh] bg-transparent relative z-10 block"
           >
             <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
               {/* Subtle background text */}
@@ -2076,7 +2082,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               <div
                 className="car-container-animate absolute z-20 flex items-center justify-center drop-shadow-2xl pointer-events-none"
               >
-                <div className="relative w-[800px] h-[436px] origin-center scale-[0.4] sm:scale-[0.65] md:scale-100 transition-transform duration-300">
+                <div className="relative w-[800px] h-[436px] origin-center scale-[0.34] sm:scale-[0.55] md:scale-[0.85] transition-transform duration-300">
                   {/* Main Car Body */}
                   <img
                     src="/assets/cars/rr_body.png"
@@ -2130,8 +2136,8 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           </div>
 
           {/* Section 1: Image Banner */}
-          <div className="w-full bg-transparent py-12 md:py-24 px-4 md:px-8 relative z-10">
-            <RevealOnScroll className="max-w-[1200px] mx-auto w-full relative rounded-[24px] md:rounded-[32px] overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center bg-neutral-900 shadow-2xl">
+          <div className="w-full bg-transparent py-12 md:py-24 relative z-10">
+            <RevealOnScroll className="w-full md:w-[90%] mx-auto relative rounded-[24px] md:rounded-[32px] overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center bg-neutral-900 shadow-2xl">
               <img src="/assets/premium_interior.png" className="absolute inset-0 w-full h-full object-cover" alt="Luxury car interior" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
               <div className="relative z-10 px-8 md:px-16 lg:px-20 w-full text-left">
@@ -2187,14 +2193,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           <PopularTypesCarousel onScrollToListings={handleScrollToListings} />
 
           {/* Section 4.5: Why W Luxury? */}
-          <div id="why-w-luxury" className="w-full bg-[#f4f4f4] text-neutral-900 py-14 px-6 relative z-10 border-t border-neutral-100 overflow-hidden">
-            <RevealOnScroll className="max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-8 text-left w-full">
+          <div id="why-w-luxury" className="w-full bg-[#f4f4f4] text-neutral-900 py-14 px-4 md:px-0 relative z-10 border-t border-neutral-100 overflow-hidden">
+            <RevealOnScroll className="w-full md:w-[90%] mx-auto flex flex-col lg:flex-row gap-6 lg:gap-8 text-left">
               {/* Left Column */}
-              <div className="w-full lg:w-[300px] flex-shrink-0 flex flex-col justify-center">
+              <div className="w-full lg:w-[26%] xl:w-[24%] flex-shrink-0 flex flex-col justify-center">
                 <h2 className="font-sans font-normal text-4xl md:text-[48px] lg:text-[56px] text-[#191919] uppercase leading-[0.9] tracking-tight mb-5">
                   Why <br /> <span className="whitespace-nowrap"><span className="text-[#C5A059]">W</span> Luxury</span>
                 </h2>
-                <p className="text-[#191919]/80 text-[13px] leading-[1.6] font-normal pr-4">
+                <p className="text-[#191919]/80 text-[13px] leading-[1.6] font-normal pr-2">
                   W Luxury is a next-generation rental car service that makes driving as convenient as it is luxurious. Pick a vehicle from our exclusive fleet, get it delivered to your doorstep, and drive off in a W Luxury car.
                 </p>
               </div>
@@ -2202,7 +2208,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               {/* Right Column (Cards) */}
               <div className="flex-grow flex flex-col md:flex-row gap-6">
                 {/* Tall Card (Door-to-Door) */}
-                <div className="flex-grow rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all duration-300 min-h-[220px]">
+                <div className="flex-grow rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all duration-300 min-h-[240px]">
                   {/* Background Image */}
                   <div className="absolute inset-0 z-0">
                     <img 
@@ -2210,7 +2216,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                       alt="Door-to-Door Delivery" 
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" 
                     />
-                    {/* Dark gradient overlay for text readability exactly like image */}
+                    {/* Dark gradient overlay for text readability */}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/50 to-black/90"></div>
                   </div>
 
@@ -2231,16 +2237,16 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </div>
 
                 {/* Two Small Cards Stacked */}
-                <div className="w-full md:w-[380px] flex-shrink-0 flex flex-col gap-4">
+                <div className="w-full md:w-[48%] lg:w-[340px] xl:w-[360px] flex-shrink-0 flex flex-col gap-4">
                   {/* Top Small Card */}
-                  <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[95px]">
+                  <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[110px]">
                     <div className="relative z-10 w-[80%]">
                       <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">Fair Toll + Fuel Plan</h3>
                       <p className="text-[#191919]/70 text-[13px] leading-[1.5]">
                         Pay only for what you use.<br />No surprise surcharges.
                       </p>
                     </div>
-                    <div className="relative z-10 mt-6">
+                    <div className="relative z-10 mt-4">
                       <a href="#" className="inline-flex items-center text-[#C5A059] hover:text-[#a88647] font-bold text-[15px] transition-colors">
                         Learn More <ArrowRight className="w-4 h-4 ml-1" />
                       </a>
@@ -2255,14 +2261,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   </div>
 
                   {/* Bottom Small Card */}
-                  <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[95px]">
+                  <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[110px]">
                     <div className="relative z-10">
                       <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">The Car You Want.<br />The Car You Need</h3>
                       <p className="text-[#191919]/70 text-[13px] leading-[1.5] max-w-[90%]">
                         Only the best: Range Rover, Porsche, BMW, Mercedes, Jaguar, or Maserati.
                       </p>
                     </div>
-                    <div className="relative z-10 mt-6">
+                    <div className="relative z-10 mt-4">
                       <a href="#" className="inline-flex items-center text-[#C5A059] hover:text-[#a88647] font-bold text-[15px] transition-colors">
                         Choose a Car <ArrowRight className="w-4 h-4 ml-1" />
                       </a>
@@ -2277,11 +2283,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           <BoutiqueCarousel />
 
           {/* Section 6: WHERE WOULD YOU LIKE TO START FROM? */}
-          <div className="w-full bg-[#f4f4f4] text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-200">
-            <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 text-left items-start">
+          <div className="w-full bg-[#f4f4f4] text-neutral-900 py-16 md:py-24 px-4 md:px-0 relative z-10 border-t border-neutral-200">
+            <div className="w-full md:w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 text-left items-start">
               {/* Left column */}
-              <div className="lg:col-span-5 pr-4">
-                <h2 className="font-sans font-normal text-4xl md:text-[56px] lg:text-[64px] text-[#191919] uppercase leading-[0.9] tracking-tight">
+              <div className="lg:col-span-5">
+                <h2 className="font-sans font-normal text-4xl md:text-[52px] lg:text-[60px] text-[#191919] uppercase leading-[0.95] tracking-tight">
                   WHERE WOULD YOU LIKE TO START FROM?
                 </h2>
               </div>
@@ -2305,7 +2311,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   ))}
                 </div>
 
-                {/* Listed Countries */}
+                {/* Listed Locations */}
                 <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-4 text-[13px] font-bold text-[#191919]">
                   {regionCountries[activeRegionTab]?.map((country) => (
                     <div
@@ -2323,32 +2329,29 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           </div>
 
           {/* Section 7: SERVICE COVERAGE AREA (NYC & NORTHERN NJ) */}
-          <div id="service-area-section" className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100">
-            <div className="max-w-[1200px] mx-auto w-full">
-              {/* Responsive columns: grid on desktop/tablet, stacked on mobile */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                {/* Left Side Content Column */}
-                <div className="lg:col-span-5 text-left">
-                  <span className="text-[11px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
-                    Our Service Coverage
-                  </span>
-                  
-                  <h2 className="font-sans font-normal text-3xl md:text-5xl text-[#191919] tracking-tight uppercase leading-[1.1] mb-6">
-                    Serving New York City & Northern New Jersey
-                  </h2>
-                  
-                  <p className="text-[14px] md:text-[15px] text-neutral-500 font-sans leading-relaxed mb-0">
-                    Skip standard rental counters. We offer premium door-to-door vehicle pickup and drop-off services throughout the five boroughs of NYC and major surrounding airports. Our concierge team delivers your selected vehicle directly to your hotel, office, private airport FBO, or residence.
-                  </p>
-                </div>
+          <div id="service-area-section" className="w-full bg-white text-neutral-900 py-16 md:py-24 px-4 md:px-0 relative z-10 border-t border-neutral-100">
+            <div className="w-full md:w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+              {/* Left Side Content Column */}
+              <div className="lg:col-span-5 text-left flex flex-col justify-center">
+                <h3 className="text-xl md:text-3xl lg:text-[35px] font-bold text-[#C5A059] uppercase tracking-widest mb-3 leading-tight">
+                  Our Service Coverage
+                </h3>
+                
+                <h2 className="font-sans font-normal text-xl md:text-2xl lg:text-[26px] text-[#191919] tracking-tight uppercase leading-[1.2] mb-6">
+                  Serving New York City &amp; Northern New Jersey
+                </h2>
+                
+                <p className="text-[14px] md:text-[15px] text-neutral-500 font-sans leading-relaxed mb-0">
+                  Skip standard rental counters. We offer premium door-to-door vehicle pickup and drop-off services throughout the five boroughs of NYC and major surrounding airports. Our concierge team delivers your selected vehicle directly to your hotel, office, private airport FBO, or residence.
+                </p>
+              </div>
 
-                {/* Right Side Interactive Map Column */}
-                <div className="lg:col-span-7 w-full h-[360px] md:h-[400px]">
-                  <ServiceAreaMap 
-                    activeLocation={activeServiceLocation}
-                    onSelectLocation={setActiveServiceLocation}
-                  />
-                </div>
+              {/* Right Side Interactive Map Column — height matches left content */}
+              <div className="lg:col-span-7 w-full h-full min-h-[320px] md:min-h-[360px]">
+                <ServiceAreaMap 
+                  activeLocation={activeServiceLocation}
+                  onSelectLocation={setActiveServiceLocation}
+                />
               </div>
             </div>
           </div>
@@ -2369,8 +2372,8 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             ];
 
             return (
-              <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100 overflow-hidden">
-                <RevealOnScroll className="max-w-[1100px] mx-auto w-full text-center">
+              <div className="w-full bg-white text-neutral-900 py-20 px-4 md:px-0 relative z-10 border-t border-neutral-100 overflow-hidden">
+                <RevealOnScroll className="w-full md:w-[90%] mx-auto text-center">
                   <h2
                     style={{ lineHeight: "1.2" }}
                     className="font-sans font-normal text-3xl md:text-4xl lg:text-[48px] xl:text-[56px] text-[#191919] tracking-tight uppercase text-center mb-16"
@@ -2438,8 +2441,8 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           })()}
 
           {/* Section 9: Instagram */}
-          <div id="instagram-section" className="w-full bg-white text-neutral-900 pt-10 pb-8 relative z-10 border-t border-[#e5e5e5]">
-            <div className="w-[100vw] relative left-1/2 -translate-x-1/2 bg-white pb-0 pl-6 md:pl-12 lg:pl-20 overflow-hidden">
+          <div id="instagram-section" className="w-full bg-white text-neutral-900 pt-10 pb-8 px-4 md:px-0 relative z-10 border-t border-[#e5e5e5]">
+            <div className="w-full md:w-[90%] mx-auto overflow-hidden">
               <RevealOnScroll className="w-full flex flex-col md:flex-row items-center md:items-stretch gap-8 md:gap-12">
                 {/* Text Side */}
                 <div className="w-full md:w-[28%] flex-shrink-0 text-left pr-6 md:pr-0 flex items-center">
@@ -2539,8 +2542,8 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           </div>
 
           {/* Footer Section */}
-          <footer className="w-full bg-[#1a1a1a] py-14 px-6 relative z-10 text-left">
-            <div className="max-w-[1100px] mx-auto">
+          <footer className="w-full bg-[#1a1a1a] py-14 px-4 md:px-0 relative z-10 text-left">
+            <div className="w-full md:w-[90%] mx-auto">
               {/* Logo */}
               <div className="mb-10">
                 <span className="font-sans font-light text-white tracking-[0.35em] text-sm uppercase select-none">
@@ -2548,10 +2551,10 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </span>
               </div>
 
-              {/* 3-column grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10">
-                {/* Column 1 */}
-                <div className="flex flex-col gap-3">
+              {/* 4 columns justified across 90% screen width */}
+              <div className="flex flex-col sm:flex-row flex-wrap lg:flex-nowrap justify-between items-start gap-8 pb-10 w-full">
+                {/* Column 1 - Services & Links */}
+                <div className="flex flex-col gap-3.5 text-left">
                   {[
                     { label: 'FAQ', highlight: false },
                     { label: 'BONUS PROGRAM', highlight: true },
@@ -2576,8 +2579,8 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   ))}
                 </div>
 
-                {/* Column 2 */}
-                <div className="flex flex-col gap-3">
+                {/* Column 2 - Legal & Info */}
+                <div className="flex flex-col gap-3.5 text-left sm:text-center sm:items-center">
                   {[
                     'TERMS & CONDITIONS',
                     'PRIVACY POLICY',
@@ -2594,17 +2597,17 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   ))}
                 </div>
 
-                {/* Column 3 – Contact & Social */}
-                <div className="flex flex-col gap-4">
+                {/* Column 3 – Contact & Socials */}
+                <div className="flex flex-col gap-4 text-left sm:text-center sm:items-center">
                   <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
                     HELLO@WLUXURY.NYC
                   </a>
-                  <a href="tel:+13053062353" className="text-[13px] font-semibold text-neutral-300 hover:text-white transition-colors">
-                    +1 305 306 2353
+                  <a href="tel:+17182133279" className="text-[13px] font-semibold text-neutral-300 hover:text-white transition-colors">
+                    (718) 213-3279
                   </a>
 
                   {/* Social icons */}
-                  <div className="flex gap-3 mt-1">
+                  <div className="flex gap-3.5 mt-1 justify-start sm:justify-center">
                     {/* Facebook */}
                     <a href="#" aria-label="Facebook" className="text-neutral-400 hover:text-white transition-colors">
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -2641,18 +2644,22 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                     </a>
                   </div>
 
-                  {/* NYC Association badge */}
-                  <div className="mt-2 flex items-center gap-2">
-                    <img
-                      src="https://realcar.miami/assets/images/nycahc-badge.png"
-                      alt="New York City Association of Hotel Concierges"
-                      className="h-12 w-auto object-contain"
-                      onError={(e) => { e.target.style.display = 'none'; }}
-                    />
-                    <span className="text-[9px] text-neutral-500 leading-tight max-w-[120px]">
-                      New York City Association<br />of Hotel Concierges
-                    </span>
-                  </div>
+                  {/* Location subtitle */}
+                  <span className="text-[10px] font-medium tracking-widest text-neutral-400 uppercase mt-0.5 block text-left sm:text-center">
+                    Car rental agency in New York
+                  </span>
+                </div>
+
+                {/* Column 4 – Clean Logo Image aligned to right edge */}
+                <div className="flex flex-col text-left sm:text-right sm:items-end justify-start">
+                  <img
+                    src="/assets/logos/w_luxury_logo_clean.png"
+                    alt="W Luxury Logo"
+                    className="w-[140px] md:w-[165px] lg:w-[175px] h-auto object-contain max-h-[160px] drop-shadow-lg transition-transform duration-300 hover:scale-105"
+                  />
+                  <p className="text-[10px] font-medium tracking-wider text-neutral-400 uppercase mt-2 text-left sm:text-right">
+                    58 Throop Ave, Brooklyn, NY 11206
+                  </p>
                 </div>
               </div>
 

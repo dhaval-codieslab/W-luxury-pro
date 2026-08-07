@@ -238,7 +238,7 @@ export default function App() {
         )}
 
         {/* Results Page content */}
-        <main id="listings-container" className="flex-grow pb-16 pt-10 max-w-[1100px] w-full mx-auto px-6">
+        <main id="listings-container" className="flex-grow pb-16 pt-10 w-full md:w-[90%] mx-auto px-4 md:px-0">
           {/* Header Row: Title on Left, Filters on Right */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 md:mb-10">
             <h2 className="hidden md:block font-condensed font-black text-3xl md:text-[34px] text-neutral-900 tracking-wide uppercase text-left">
@@ -288,7 +288,7 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1000px] mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
                 {filteredCars.map((car, idx) => {
                   const selectedIndex = filteredCars.findIndex(c => c._id === selectedCarId);
                   const insertAfterIndex = Math.min(
@@ -298,7 +298,7 @@ export default function App() {
 
                   return (
                     <React.Fragment key={car._id}>
-                      <div id={`car-card-container-${idx}`}>
+                      <div id={`car-card-container-${idx}`} className="w-full">
                         <CarCard
                           car={car}
                           viewMode="results"
@@ -325,7 +325,7 @@ export default function App() {
                       </div>
                       {selectedCarId && idx === insertAfterIndex && !selectedCar && (
                         <div id="car-options-section" className="col-span-1 md:col-span-2 flex justify-center mt-6 mb-4">
-                          <div className="w-full max-w-[1100px]">
+                          <div className="w-full md:w-[90%] mx-auto">
                             <CarCardDetails
                               car={filteredCars.find(c => c._id === selectedCarId)}
                               searchParams={searchParams}
@@ -369,86 +369,131 @@ export default function App() {
         </main>
 
         {/* Visual Footer */}
-        <footer className="w-full bg-[#0C0C0C] text-neutral-400 pt-16 pb-12 px-6 md:px-12 border-t border-neutral-900 mt-auto text-xs">
-          <div className="max-w-[1100px] mx-auto flex flex-col gap-10">
+        <footer className="w-full bg-[#1a1a1a] py-14 px-4 md:px-0 relative z-10 text-left mt-auto">
+          <div className="w-full md:w-[90%] mx-auto">
             {/* Logo */}
-            <div className="text-[13px] font-medium tracking-[0.6em] text-white uppercase text-left">
-              W&nbsp;&nbsp;LUXURY
+            <div className="mb-10">
+              <span className="font-sans font-light text-white tracking-[0.35em] text-sm uppercase select-none">
+                W &nbsp; L U X U R Y
+              </span>
             </div>
 
-            {/* Columns Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Column 1 */}
+            {/* 4 columns justified across 90% screen width */}
+            <div className="flex flex-col sm:flex-row flex-wrap lg:flex-nowrap justify-between items-start gap-8 pb-10 w-full">
+              {/* Column 1 - Services & Links */}
               <div className="flex flex-col gap-3.5 text-left">
-                <a href="#faq" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">FAQ</a>
-                <a href="#bonus" className="text-[#C5A059] hover:text-[#B28F4B] transition-colors font-bold uppercase tracking-wider text-[11px]">Bonus Program</a>
-                <a href="#contact" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Contact Us</a>
-                <a href="#delivery" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Rental Car Delivery in Miami</a>
-                <a href="#one-way" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">One-Way Car Rental</a>
-                <a href="#long-term" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Long-Term Car Rental</a>
+                {[
+                  { label: 'FAQ', highlight: false },
+                  { label: 'BONUS PROGRAM', highlight: true },
+                  { label: 'CONTACT US', highlight: false },
+                  { label: 'RENTAL CAR DELIVERY IN MIAMI', highlight: false },
+                  { label: 'ONE-WAY CAR RENTAL', highlight: false },
+                  { label: 'LONG-TERM CAR RENTAL', highlight: false },
+                ].map(({ label, highlight }) => (
+                  <a
+                    key={label}
+                    href={label === 'CONTACT US' ? '#instagram-section' : '#'}
+                    onClick={(e) => {
+                      if (label === 'CONTACT US') {
+                        e.preventDefault();
+                        document.getElementById('instagram-section')?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className={`text-[11px] font-semibold tracking-wider uppercase transition-colors ${highlight ? 'text-[#C5A059] hover:text-[#d4b472]' : 'text-neutral-300 hover:text-white'}`}
+                  >
+                    {label}
+                  </a>
+                ))}
               </div>
 
-              {/* Column 2 */}
-              <div className="flex flex-col gap-3.5 text-left">
-                <a href="#terms" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Terms & Conditions</a>
-                <a href="#privacy" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Privacy Policy</a>
-                <a href="#reviews" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Reviews</a>
-                <a href="#vacancies" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Vacancies</a>
+              {/* Column 2 - Legal & Info */}
+              <div className="flex flex-col gap-3.5 text-left sm:text-center sm:items-center">
+                {[
+                  'TERMS & CONDITIONS',
+                  'PRIVACY POLICY',
+                  'REVIEWS',
+                  'VACANCIES',
+                ].map((label) => (
+                  <a
+                    key={label}
+                    href="#"
+                    className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors"
+                  >
+                    {label}
+                  </a>
+                ))}
               </div>
 
-              {/* Column 3 */}
-              <div className="flex flex-col gap-4 text-left">
-                <div className="flex flex-col gap-3">
-                  <a href="mailto:hello@wluxury.nyc" className="text-white hover:text-[#C5A059] transition-colors font-bold uppercase tracking-wider text-[11px] block">
-                    hello@wluxury.nyc
-                  </a>
-                  <a href="tel:+13053062353" className="text-white hover:text-[#C5A059] transition-colors font-bold uppercase tracking-wider text-[11px] block">
-                    +1 305 306 2353
-                  </a>
-                </div>
+              {/* Column 3 – Contact & Socials */}
+              <div className="flex flex-col gap-4 text-left sm:text-right sm:items-end">
+                <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
+                  HELLO@WLUXURY.NYC
+                </a>
+                <a href="tel:+17182133279" className="text-[13px] font-semibold text-neutral-300 hover:text-white transition-colors">
+                  (718) 213-3279
+                </a>
 
-                {/* Social Icons */}
-                <div className="flex items-center gap-4 text-neutral-400 mt-2">
-                  <a href="#" className="hover:text-white transition-colors" aria-label="Facebook">
-                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
-                      <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
+                {/* Social icons */}
+                <div className="flex gap-3.5 mt-1 justify-start sm:justify-end">
+                  {/* Facebook */}
+                  <a href="#" aria-label="Facebook" className="text-neutral-400 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                     </svg>
                   </a>
-                  <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
-                    <svg className="w-4.5 h-4.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" width="18" height="18" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  {/* Instagram */}
+                  <a href="#" aria-label="Instagram" className="text-neutral-400 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                     </svg>
                   </a>
-                  <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
-                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                  {/* LinkedIn */}
+                  <a href="#" aria-label="LinkedIn" className="text-neutral-400 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect width="4" height="12" x="2" y="9" />
+                      <circle cx="4" cy="4" r="2" />
                     </svg>
                   </a>
-                  <a href="#" className="hover:text-white transition-colors" aria-label="Pinterest">
-                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
-                      <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.007-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.166-1.495-.69-2.433-2.878-2.433-4.617 0-3.772 2.74-7.237 7.897-7.237 4.15 0 7.379 2.959 7.379 6.917 0 4.127-2.607 7.452-6.227 7.452-1.216 0-2.362-.631-2.753-1.378l-.751 2.87c-.273 1.055-1.005 2.375-1.495 3.181 1.12.347 2.311.537 3.548.537 6.62 0 11.988-5.367 11.988-11.987C24.007 5.362 18.636 0 12.017 0z" />
+                  {/* Pinterest */}
+                  <a href="#" aria-label="Pinterest" className="text-neutral-400 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
                     </svg>
                   </a>
-                  <a href="#" className="hover:text-white transition-colors" aria-label="X">
-                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  {/* X / Twitter */}
+                  <a href="#" aria-label="X" className="text-neutral-400 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
                 </div>
 
-                {/* Association Text */}
-                <div className="text-[10px] text-neutral-600 font-semibold leading-relaxed mt-2 uppercase tracking-widest">
-                  New York City Association<br />of Hotel Concierges
-                </div>
+                {/* Location subtitle */}
+                <span className="text-[10px] font-medium tracking-widest text-neutral-400 uppercase mt-0.5 block text-left sm:text-right">
+                  Car rental agency in New York
+                </span>
+              </div>
+
+              {/* Column 4 – Clean Logo Image aligned to right edge */}
+              <div className="flex flex-col text-left sm:text-right sm:items-end justify-start">
+                <img
+                  src="/assets/logos/w_luxury_logo_clean.png"
+                  alt="W Luxury Logo"
+                  className="w-[140px] md:w-[165px] lg:w-[175px] h-auto object-contain max-h-[160px] drop-shadow-lg transition-transform duration-300 hover:scale-105"
+                />
+                <p className="text-[10px] font-medium tracking-wider text-neutral-400 uppercase mt-2 text-left sm:text-right">
+                  58 Throop Ave, Brooklyn, NY 11206
+                </p>
               </div>
             </div>
 
-            {/* Divider and Copyright */}
-            <div className="border-t border-neutral-900 mt-6 pt-6 text-left">
-              <p className="text-[10px] tracking-wider uppercase text-neutral-600">
-                &copy; 2026 W Luxury. All rights reserved.
+            {/* Bottom bar */}
+            <div className="border-t border-neutral-800 pt-6">
+              <p className="text-[9px] font-medium tracking-widest uppercase text-neutral-500">
+                © 2026 W LUXURY. ALL RIGHTS RESERVED.
               </p>
             </div>
           </div>

@@ -120,37 +120,39 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
     <div data-lenis-prevent className="fixed inset-0 z-[100] overflow-y-auto bg-white text-[#191919] flex flex-col font-sans">
       
       {/* Dark Header */}
-      <div className="w-full bg-[#191919] px-6 py-4 flex items-center justify-between text-white flex-shrink-0">
-        {/* W Logo */}
-        <div className="flex items-center gap-2">
-          <div 
-            onClick={onClose}
-            className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100"
-          >
-            <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
-              W
-            </span>
-            <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
-              LUXURY RENTAL
-            </span>
+      <div className="w-full bg-[#191919] border-b border-neutral-800 flex-shrink-0">
+        <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-4 flex items-center justify-between text-white">
+          {/* W Logo */}
+          <div className="flex items-center gap-2">
+            <div 
+              onClick={onClose}
+              className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100"
+            >
+              <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
+                W
+              </span>
+              <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
+                LUXURY RENTAL
+              </span>
+            </div>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-6 text-[13px] font-semibold text-[#a5a5a5]">
-          <button onClick={() => setIsLangModalOpen(true)} className="flex items-center gap-1.5 hover:text-[#C5A059] premium-transition text-[#191919] font-bold">
-            <Globe className="w-5 h-5 stroke-[2.5]" />
-            <span>{langCode} | {currencySymbol}</span>
-          </button>
-          <button className="flex items-center gap-1.5 hover:text-[#C5A059] transition-colors group">
-            <UserIcon className="w-4 h-4 group-hover:stroke-[#C5A059] transition-colors" />
-            Log in | Register
-          </button>
+          
+          <div className="flex items-center gap-6 text-[13px] font-semibold text-[#a5a5a5]">
+            <button onClick={() => setIsLangModalOpen(true)} className="flex items-center gap-1.5 hover:text-[#C5A059] premium-transition text-white font-bold">
+              <Globe className="w-5 h-5 stroke-[2.5]" />
+              <span>{langCode} | {currencySymbol}</span>
+            </button>
+            <button className="flex items-center gap-1.5 hover:text-[#C5A059] transition-colors group text-white">
+              <UserIcon className="w-4 h-4 group-hover:stroke-[#C5A059] transition-colors" />
+              Log in | Register
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Sticky Title Bar */}
       <div className="w-full bg-white border-b border-neutral-200 sticky top-0 z-10">
-        <div className="max-w-[1100px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-4 flex items-center justify-between">
           <button onClick={onClose} className="flex items-center gap-2 text-2xl font-black uppercase tracking-tight hover:text-neutral-600 transition-colors" style={{ textShadow: '0 0 1px black, 0 0 1px black' }}>
             <ChevronLeft className="w-6 h-6 stroke-[3]" />
             Review your booking
@@ -172,7 +174,7 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
       </div>
 
       {/* Main Content */}
-      <div className="flex-grow w-full max-w-[1100px] mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10">
+      <div className="flex-grow w-full md:w-[90%] mx-auto px-4 md:px-0 py-10 flex flex-col lg:flex-row gap-10">
         
         {/* Left Column (Forms) */}
         <div className="w-full lg:w-2/3">

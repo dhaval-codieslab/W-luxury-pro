@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 
 export default function Filters({ activeFilters, toggleFilter, clearFilters, totalCount }) {
@@ -11,7 +11,7 @@ export default function Filters({ activeFilters, toggleFilter, clearFilters, tot
   ];
 
   return (
-    <div className="w-full max-w-[1100px] mx-auto px-6 py-10 flex flex-col gap-6">
+    <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-10 flex flex-col gap-6">
 
       {/* Filters Pill Row */}
       <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm">

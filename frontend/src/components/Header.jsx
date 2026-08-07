@@ -103,7 +103,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
         )}
         {/* --- DESKTOP RESULTS HEADER --- */}
         <header ref={headerRef} className="hidden md:block w-full bg-black text-white select-none z-50 sticky top-0 border-b border-neutral-800/80 shadow-md">
-          <div className="w-full max-w-[1100px] mx-auto px-4 py-3 h-[64px]">
+          <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-3 h-[64px]">
             <div className="flex items-center justify-between h-full">
               {/* Logo */}
               <div className="flex items-center gap-4">
@@ -195,8 +195,8 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
 
 
         {/* Main Navbar */}
-        <div className="w-full bg-black/60 md:bg-black/30 backdrop-blur-md text-white px-4 md:px-6 py-3 h-[64px]">
-          <div className="w-full max-w-[1100px] mx-auto h-full flex flex-col justify-center">
+        <div className="w-full bg-black/60 md:bg-black/30 backdrop-blur-md text-white py-3 h-[64px]">
+          <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 h-full flex flex-col justify-center">
 
             {/* --- MOBILE LAYOUT --- */}
             <div className="flex items-center justify-between h-full md:hidden">
@@ -216,7 +216,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-5 text-[14px] font-semibold text-white tracking-tight">
+              <div className="flex items-center gap-5 text-[14px] font-normal text-white tracking-tight">
                 <button onClick={onOurFleetClick} className="hover:text-[#C5A059] transition-colors">
                   Our Fleet
                 </button>
@@ -247,7 +247,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
               </div>
 
               {/* Right Side: Navigation Links */}
-              <div className="flex items-center gap-7 text-[18px] font-medium text-white tracking-tight">
+              <div className="flex items-center gap-7 text-[16px] font-normal text-white tracking-tight">
 
                 {/* Our Fleet Link */}
                 <button 

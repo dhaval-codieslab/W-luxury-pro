@@ -129,7 +129,7 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
           <img
             src={car.image}
             alt={car.name}
-            className="relative z-10 w-[85%] h-auto object-contain translate-y-4 transform group-hover:translate-x-5 group-hover:-translate-y-3 group-hover:scale-[1.15] transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] drop-shadow-2xl"
+            className="relative z-10 w-[85%] h-auto object-contain translate-y-4 transform group-hover:translate-x-10 group-hover:scale-[1.15] transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] drop-shadow-2xl"
             style={car.image.endsWith('.webp') ? { mixBlendMode: 'multiply' } : {}}
           />
         </div>
@@ -154,20 +154,24 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
     : `9 — 9 Jul 2026 | 1 day`;
 
   return (
-    <div ref={cardRef} className={`relative mt-16 ${isSelected ? 'z-40' : 'z-10'} group`}>
+    <div ref={cardRef} className={`relative w-full mt-20 md:mt-24 ${isSelected ? 'z-40' : 'z-10'} group`}>
       {/* Overflowing Car Image */}
-      <div className="absolute -top-28 md:-top-24 lg:-top-36 left-1/2 -translate-x-1/2 w-[85%] z-20 pointer-events-none select-none">
+      <div className="absolute -top-20 md:-top-24 lg:-top-28 left-[44%] -translate-x-1/2 w-[68%] md:w-[72%] z-20 pointer-events-none select-none">
         <img
           src={car.image}
           alt={car.name}
-          className="w-full h-auto object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,0.18)] transition-all duration-500 ease-out group-hover:translate-x-5"
+          className="w-full h-auto object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,0.18)] transition-all duration-500 ease-out group-hover:translate-x-12"
         />
       </div>
 
       <div
         onClick={() => onClick(car)}
-        className={`relative w-full rounded-[28px] overflow-hidden px-6 pb-6 pt-20 md:pt-24 lg:pt-32 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-md select-none bg-[#f4f4f4] ${isSelected ? 'border-[3px] border-[#C5A059]' : 'border border-neutral-200/50 hover:border-neutral-300'}`}
+        className={`relative w-full rounded-[28px] overflow-hidden px-6 md:px-8 pb-6 pt-28 md:pt-32 lg:pt-36 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-md select-none bg-[#f4f4f4] ${isSelected ? 'border-[3px] border-[#C5A059]' : 'border border-neutral-200/50 hover:border-neutral-300'}`}
       >
+        {/* Light Bronze Gold Shadow / Glow around car on hover (Strictly contained inside card) */}
+        <div className="absolute top-0 left-0 right-0 h-[65%] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden z-0">
+          <div className="absolute top-3 left-[44%] -translate-x-1/2 w-[85%] h-[130px] bg-[#C5A059]/30 rounded-full blur-[40px]" />
+        </div>
         {/* Details and Pricing matching image2 layout */}
         <div className="flex-grow flex flex-col text-left">
           <div>

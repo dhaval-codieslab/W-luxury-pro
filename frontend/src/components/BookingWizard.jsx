@@ -288,29 +288,31 @@ export default function BookingWizard({ car, searchParams, onClose, onSubmitSucc
       <div data-lenis-prevent className="fixed inset-0 z-50 overflow-y-auto bg-neutral-50 text-neutral-900 flex flex-col select-none font-sans">
         
         {/* W Luxury Car Rental Header */}
-        <div className="w-full bg-[#000000] px-6 py-3 flex items-center justify-between text-white font-semibold text-xs border-b border-neutral-900 flex-shrink-0">
-          {/* W Logo */}
-          <div className="flex items-center gap-2">
-            <div className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100" onClick={onClose}>
-              <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
-                W
-              </span>
-              <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
-                LUXURY RENTAL
-              </span>
+        <div className="w-full bg-[#000000] border-b border-neutral-900 flex-shrink-0">
+          <div className="w-full md:w-[90%] mx-auto px-4 md:px-0 py-3 flex items-center justify-between text-white font-semibold text-xs">
+            {/* W Logo */}
+            <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100" onClick={onClose}>
+                <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
+                  W
+                </span>
+                <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
+                  LUXURY RENTAL
+                </span>
+              </div>
             </div>
-          </div>
 
-          {/* Right Header Navigation */}
-          <div className="flex items-center gap-6 text-[11px] font-bold text-neutral-300">
-            <button className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <svg className="w-3.5 h-3.5 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
-              EN | $
-            </button>
-            <button className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <svg className="w-3.5 h-3.5 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Log in | Register
-            </button>
+            {/* Right Header Navigation */}
+            <div className="flex items-center gap-6 text-[11px] font-bold text-neutral-300">
+              <button className="flex items-center gap-1.5 hover:text-white transition-colors">
+                <svg className="w-3.5 h-3.5 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
+                EN | $
+              </button>
+              <button className="flex items-center gap-1.5 hover:text-white transition-colors">
+                <svg className="w-3.5 h-3.5 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Log in | Register
+              </button>
+            </div>
           </div>
         </div>
 
