@@ -407,7 +407,7 @@ export default function App() {
               </div>
 
               {/* Column 2 - Legal & Info */}
-              <div className="flex flex-col gap-3.5 text-left sm:text-center sm:items-center">
+              <div className="flex flex-col gap-3.5 text-left">
                 {[
                   'TERMS & CONDITIONS',
                   'PRIVACY POLICY',
@@ -425,7 +425,7 @@ export default function App() {
               </div>
 
               {/* Column 3 – Contact & Socials */}
-              <div className="flex flex-col gap-4 text-left sm:text-right sm:items-end">
+              <div className="flex flex-col gap-4 text-left">
                 <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
                   HELLO@WLUXURY.NYC
                 </a>
@@ -434,7 +434,7 @@ export default function App() {
                 </a>
 
                 {/* Social icons */}
-                <div className="flex gap-3.5 mt-1 justify-start sm:justify-end">
+                <div className="flex gap-3.5 mt-1 justify-start">
                   {/* Facebook */}
                   <a href="#" aria-label="Facebook" className="text-neutral-400 hover:text-white transition-colors">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -472,7 +472,7 @@ export default function App() {
                 </div>
 
                 {/* Location subtitle */}
-                <span className="text-[10px] font-medium tracking-widest text-neutral-400 uppercase mt-0.5 block text-left sm:text-right">
+                <span className="text-[10px] font-medium tracking-widest text-neutral-400 uppercase mt-0.5 block text-left">
                   Car rental agency in New York
                 </span>
               </div>

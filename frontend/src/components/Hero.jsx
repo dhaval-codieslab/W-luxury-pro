@@ -509,19 +509,7 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
     }
   }, [selectedIdx]);
 
-  // Helper to split title for luxury stacked style
-  const splitTitle = (title) => {
-    const parts = title.split(' ');
-    if (parts.length > 2) {
-      const lastWord = parts[parts.length - 1];
-      const remaining = parts.slice(0, parts.length - 1).join(' ');
-      return { line1: remaining, line2: lastWord };
-    } else if (parts.length === 2) {
-      return { line1: parts[0], line2: parts[1] };
-    }
-    return { line1: title, line2: '' };
-  };
-  const { line1, line2 } = splitTitle(activeCar.title);
+
 
   return (
     <div className="w-full bg-white text-neutral-900 py-10 md:py-14 lg:py-16 px-4 md:px-0 text-center select-none relative z-10 border-t border-neutral-100 overflow-hidden">
@@ -553,9 +541,8 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
             </span>
 
             {/* Title */}
-            <h2 className="font-sans font-bold text-xl md:text-2xl lg:text-[28px] text-[#191919] tracking-tight uppercase leading-tight mb-2">
-              {line1}
-              {line2 && <span className="block text-[#191919]/90 mt-0.5">{line2}</span>}
+            <h2 className="font-sans font-bold text-[25px] text-[#191919] tracking-tight uppercase leading-tight mb-2">
+              {activeCar.title}
             </h2>
 
             {/* Specs Badges Row */}
@@ -2547,7 +2534,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               {/* Logo */}
               <div className="mb-10">
                 <span className="font-sans font-light text-white tracking-[0.35em] text-sm uppercase select-none">
-                  W &nbsp; L U X U R Y
+                  W &nbsp; L U X U R Y &nbsp; C A R  &nbsp;  R E N T A L  
                 </span>
               </div>
 
@@ -2580,7 +2567,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </div>
 
                 {/* Column 2 - Legal & Info */}
-                <div className="flex flex-col gap-3.5 text-left sm:text-center sm:items-center">
+                <div className="flex flex-col gap-3.5 text-left">
                   {[
                     'TERMS & CONDITIONS',
                     'PRIVACY POLICY',
@@ -2598,7 +2585,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </div>
 
                 {/* Column 3 – Contact & Socials */}
-                <div className="flex flex-col gap-4 text-left sm:text-center sm:items-center">
+                <div className="flex flex-col gap-4 text-left">
                   <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
                     HELLO@WLUXURY.NYC
                   </a>
@@ -2607,7 +2594,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   </a>
 
                   {/* Social icons */}
-                  <div className="flex gap-3.5 mt-1 justify-start sm:justify-center">
+                  <div className="flex gap-3.5 mt-1 justify-start">
                     {/* Facebook */}
                     <a href="#" aria-label="Facebook" className="text-neutral-400 hover:text-white transition-colors">
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -2645,7 +2632,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   </div>
 
                   {/* Location subtitle */}
-                  <span className="text-[10px] font-medium tracking-widest text-neutral-400 uppercase mt-0.5 block text-left sm:text-center">
+                  <span className="text-[10px] font-medium tracking-widest text-neutral-400 uppercase mt-0.5 block text-left">
                     Car rental agency in New York
                   </span>
                 </div>
@@ -2666,7 +2653,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               {/* Bottom bar */}
               <div className="border-t border-neutral-800 pt-6">
                 <p className="text-[9px] font-medium tracking-widest uppercase text-neutral-500">
-                  © 2026 W LUXURY. ALL RIGHTS RESERVED.
+                  © 2026 W LUXURY CAR RENTAL. ALL RIGHTS RESERVED.
                 </p>
               </div>
             </div>

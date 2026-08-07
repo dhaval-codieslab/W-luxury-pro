@@ -89,19 +89,19 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
   const getImageStyle = () => {
     if (viewMode === 'front') {
       return {
-        transform: 'perspective(600px) rotateY(-30deg) scaleX(-1) scale(1.05) translateY(-5px)',
-        transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+        transform: 'perspective(600px) rotateY(-15deg) translateX(-25px) scale(1.02)',
+        transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)'
       };
     }
     if (viewMode === 'back') {
       return {
-        transform: 'perspective(600px) rotateY(30deg) scaleX(1) scale(1.05) translateY(-5px)',
-        transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+        transform: 'perspective(600px) rotateY(15deg) translateX(25px) scale(1.02)',
+        transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)'
       };
     }
     return {
-      transform: 'perspective(600px) rotateY(0deg) scaleX(1) scale(1.1) translateY(0px)',
-      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+      transform: 'perspective(600px) rotateY(0deg) translateX(0px) scale(1.05)',
+      transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)'
     };
   };
 
