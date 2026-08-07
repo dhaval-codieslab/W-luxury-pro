@@ -293,7 +293,7 @@ export default function BookingWizard({ car, searchParams, onClose, onSubmitSucc
             {/* W Logo */}
             <div className="flex items-center gap-2">
               <img
-                src="/assets/logos/w_luxury_logo_clean.png"
+                src="/assets/logos/w_luxury_logo_clean_new.png"
                 alt="W Luxury Logo"
                 onClick={onClose}
                 className="h-10 md:h-12 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"

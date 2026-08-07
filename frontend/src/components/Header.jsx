@@ -110,7 +110,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
               {/* Logo */}
               <div className="flex items-center gap-4">
                 <img
-                  src="/assets/logos/w_luxury_logo_clean.png"
+                  src="/assets/logos/w_luxury_logo_clean_new.png"
                   alt="W Luxury Logo"
                   onClick={onResetView}
                   className="h-12 md:h-14 lg:h-16 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
@@ -202,7 +202,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                   <CustomMenuIcon className="w-6 h-6" />
                 </button>
                 <img
-                  src="/assets/logos/w_luxury_logo_clean.png"
+                  src="/assets/logos/w_luxury_logo_clean_new.png"
                   alt="W Luxury Logo"
                   onClick={onResetView}
                   className="h-10 md:h-12 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
@@ -226,7 +226,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                   <CustomMenuIcon className="w-7 h-7" />
                 </button>
                 <img
-                  src="/assets/logos/w_luxury_logo_clean.png"
+                  src="/assets/logos/w_luxury_logo_clean_new.png"
                   alt="W Luxury Logo"
                   onClick={onResetView}
                   className="h-12 md:h-14 lg:h-16 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
