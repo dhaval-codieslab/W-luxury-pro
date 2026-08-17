@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Info, Check, Loader2, Globe } from 'lucide-react';
+import { ChevronLeft, Info, Check, Loader2, Globe, Upload, X } from 'lucide-react';
 import BookingSuccessModal from './BookingSuccessModal';
 import LanguageCurrencyModal from './LanguageCurrencyModal';
 import PriceDetailsModal from './PriceDetailsModal';
@@ -24,6 +24,10 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [company, setCompany] = useState('');
+  const [licenseFrontFile, setLicenseFrontFile] = useState(null);
+  const [licenseFrontPreview, setLicenseFrontPreview] = useState(null);
+  const [licenseBackFile, setLicenseBackFile] = useState(null);
+  const [licenseBackPreview, setLicenseBackPreview] = useState(null);
   
   // Invoice form state
   const [streetAddress, setStreetAddress] = useState('');
@@ -40,6 +44,30 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
   const [isPriceDetailsModalOpen, setIsPriceDetailsModalOpen] = useState(false);
   const { langCode, setLangCode, currencySymbol, setCurrencySymbol, langName, setLangName, currencyName, setCurrencyName } = useUserSettings();
 
+  const handleFileChange = (e, side) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size is too large. Max limit is 5MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (side === 'front') {
+        setLicenseFrontFile(file);
+        setLicenseFrontPreview(reader.result);
+        setErrors(prev => ({ ...prev, licenseFront: null }));
+      } else {
+        setLicenseBackFile(file);
+        setLicenseBackPreview(reader.result);
+        setErrors(prev => ({ ...prev, licenseBack: null }));
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async () => {
     // Validation
     const newErrors = {};
@@ -48,6 +76,8 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
     if (!firstName) newErrors.firstName = 'First name is required';
     if (!lastName) newErrors.lastName = 'Last name is required';
     if (!phoneNumber) newErrors.phoneNumber = 'Phone number is required';
+    if (!licenseFrontFile) newErrors.licenseFront = 'Driver license front photo is required';
+    if (!licenseBackFile) newErrors.licenseBack = 'Driver license back photo is required';
     if (!streetAddress) newErrors.streetAddress = 'Street address is required';
     if (!zip) newErrors.zip = 'Zip code is required';
     if (!city) newErrors.city = 'City is required';
@@ -70,6 +100,13 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
       formData.append("from_name", "Luxury Rental Booking");
       formData.append("email", email || 'Not provided');
       
+      if (licenseFrontFile) {
+        formData.append("attachment", licenseFrontFile);
+      }
+      if (licenseBackFile) {
+        formData.append("attachment", licenseBackFile);
+      }
+      
       const message = `
         New Booking Request!
         
@@ -78,6 +115,9 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
         Email: ${email}
         Age Verified: ${isAgeVerified ? 'Yes' : 'No'}
         WhatsApp Notifications: ${receiveWhatsApp ? 'Yes' : 'No'}
+        Driver's License Uploaded:
+        - Front Photo: ${licenseFrontFile ? licenseFrontFile.name : 'Missing'}
+        - Back Photo: ${licenseBackFile ? licenseBackFile.name : 'Missing'}
         
         Vehicle Details:
         Car: ${car?.name}
@@ -131,17 +171,7 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
               className="h-10 md:h-12 w-auto object-contain cursor-pointer active:scale-95 transition-transform duration-100 drop-shadow-md"
             />
           </div>
-          
-          <div className="flex items-center gap-6 text-[13px] font-semibold text-[#a5a5a5]">
-            <button onClick={() => setIsLangModalOpen(true)} className="flex items-center gap-1.5 hover:text-[#C5A059] premium-transition text-white font-bold">
-              <Globe className="w-5 h-5 stroke-[2.5]" />
-              <span>{langCode} | {currencySymbol}</span>
-            </button>
-            <button className="flex items-center gap-1.5 hover:text-[#C5A059] transition-colors group text-white">
-              <UserIcon className="w-4 h-4 group-hover:stroke-[#C5A059] transition-colors" />
-              Log in | Register
-            </button>
-          </div>
+          {/* Header empty right space */}
         </div>
       </div>
 
@@ -259,6 +289,100 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
             <div>
               <label className="block text-[13px] font-bold mb-1">Company <span className="font-normal text-neutral-500">(optional)</span></label>
               <input type="text" value={company} onChange={e => setCompany(e.target.value)} className="w-full border border-neutral-300 rounded-lg h-12 px-4 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all" />
+            </div>
+            
+            {/* Driver License Upload Section */}
+            <div className="mt-4 pt-4 border-t border-neutral-200">
+              <label className="block text-[13px] font-bold text-neutral-800 uppercase tracking-wide mb-1">
+                Driver License: Please upload front and back photo
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+                {/* Front Upload */}
+                <div>
+                  <div 
+                    className={`relative border-2 border-dashed rounded-xl h-36 flex flex-col items-center justify-center cursor-pointer transition-all ${
+                      errors.licenseFront 
+                        ? 'border-red-500 bg-red-50/20' 
+                        : licenseFrontPreview 
+                          ? 'border-neutral-300 bg-neutral-50' 
+                          : 'border-neutral-300 hover:border-black bg-neutral-50/50 hover:bg-neutral-50'
+                    }`}
+                  >
+                    {licenseFrontPreview ? (
+                      <div className="w-full h-full p-2 flex items-center justify-center relative">
+                        <img src={licenseFrontPreview} alt="License Front Preview" className="max-w-full max-h-full object-contain rounded-lg shadow-sm" />
+                        <button 
+                          type="button" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setLicenseFrontFile(null);
+                            setLicenseFrontPreview(null);
+                          }}
+                          className="absolute top-1.5 right-1.5 bg-neutral-900/80 hover:bg-neutral-900 text-white rounded-full p-1 transition-colors shadow-md"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer px-4 text-center">
+                        <Upload className="w-6 h-6 text-neutral-400 mb-1" />
+                        <span className="text-[13px] font-bold text-neutral-700">Upload Front Photo</span>
+                        <span className="text-[11px] text-neutral-400 mt-0.5">PNG, JPG, or WEBP up to 5MB</span>
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          className="hidden" 
+                          onChange={(e) => handleFileChange(e, 'front')} 
+                        />
+                      </label>
+                    )}
+                  </div>
+                  {errors.licenseFront && <span className="text-red-500 text-xs mt-1 block font-semibold">{errors.licenseFront}</span>}
+                </div>
+
+                {/* Back Upload */}
+                <div>
+                  <div 
+                    className={`relative border-2 border-dashed rounded-xl h-36 flex flex-col items-center justify-center cursor-pointer transition-all ${
+                      errors.licenseBack 
+                        ? 'border-red-500 bg-red-50/20' 
+                        : licenseBackPreview 
+                          ? 'border-neutral-300 bg-neutral-50' 
+                          : 'border-neutral-300 hover:border-black bg-neutral-50/50 hover:bg-neutral-50'
+                    }`}
+                  >
+                    {licenseBackPreview ? (
+                      <div className="w-full h-full p-2 flex items-center justify-center relative">
+                        <img src={licenseBackPreview} alt="License Back Preview" className="max-w-full max-h-full object-contain rounded-lg shadow-sm" />
+                        <button 
+                          type="button" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setLicenseBackFile(null);
+                            setLicenseBackPreview(null);
+                          }}
+                          className="absolute top-1.5 right-1.5 bg-neutral-900/80 hover:bg-neutral-900 text-white rounded-full p-1 transition-colors shadow-md"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer px-4 text-center">
+                        <Upload className="w-6 h-6 text-neutral-400 mb-1" />
+                        <span className="text-[13px] font-bold text-neutral-700">Upload Back Photo</span>
+                        <span className="text-[11px] text-neutral-400 mt-0.5">PNG, JPG, or WEBP up to 5MB</span>
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          className="hidden" 
+                          onChange={(e) => handleFileChange(e, 'back')} 
+                        />
+                      </label>
+                    )}
+                  </div>
+                  {errors.licenseBack && <span className="text-red-500 text-xs mt-1 block font-semibold">{errors.licenseBack}</span>}
+                </div>
+              </div>
             </div>
           </div>
 

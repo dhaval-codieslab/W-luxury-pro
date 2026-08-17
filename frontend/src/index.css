@@ -90,6 +90,25 @@ html.lenis body {
   scrollbar-color: #E5E5E5 transparent;
 }
 
+.specs-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.specs-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+.specs-scrollbar::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 4px;
+}
+.specs-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #E5C278;
+}
+.specs-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #C5A059 rgba(255, 255, 255, 0.08);
+}
+
 body {
   background-color: #0C0C0C;
   color: #F3F3F3;

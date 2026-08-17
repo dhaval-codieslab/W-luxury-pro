@@ -384,19 +384,23 @@ export default function App() {
               <div className="flex flex-col gap-3.5 text-left">
                 {[
                   { label: 'FAQ', highlight: false },
-                  { label: 'BONUS PROGRAM', highlight: true },
                   { label: 'CONTACT US', highlight: false },
-                  { label: 'RENTAL CAR DELIVERY IN MIAMI', highlight: false },
-                  { label: 'ONE-WAY CAR RENTAL', highlight: false },
-                  { label: 'LONG-TERM CAR RENTAL', highlight: false },
+                  { label: 'TERMS & CONDITIONS', highlight: false },
+                  { label: 'PRIVACY POLICY', highlight: false },
                 ].map(({ label, highlight }) => (
                   <a
                     key={label}
-                    href={label === 'CONTACT US' ? '#instagram-section' : '#'}
+                    href={
+                      label === 'CONTACT US' ? '#instagram-section' :
+                      label === 'FAQ' ? '#faq-section' : '#'
+                    }
                     onClick={(e) => {
                       if (label === 'CONTACT US') {
                         e.preventDefault();
                         document.getElementById('instagram-section')?.scrollIntoView({ behavior: 'smooth' });
+                      } else if (label === 'FAQ') {
+                        e.preventDefault();
+                        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
                     className={`text-[11px] font-semibold tracking-wider uppercase transition-colors ${highlight ? 'text-[#C5A059] hover:text-[#d4b472]' : 'text-neutral-300 hover:text-white'}`}
@@ -406,28 +410,10 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Column 2 - Legal & Info */}
-              <div className="flex flex-col gap-3.5 text-left">
-                {[
-                  'TERMS & CONDITIONS',
-                  'PRIVACY POLICY',
-                  'REVIEWS',
-                  'VACANCIES',
-                ].map((label) => (
-                  <a
-                    key={label}
-                    href="#"
-                    className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors"
-                  >
-                    {label}
-                  </a>
-                ))}
-              </div>
-
               {/* Column 3 – Contact & Socials */}
               <div className="flex flex-col gap-4 text-left">
-                <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
-                  HELLO@WLUXURY.NYC
+                <a href="mailto:HELLO@WLUXURYRENTAL.COM" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
+                  HELLO@WLUXURYRENTAL.COM
                 </a>
                 <a href="tel:+17182133279" className="text-[13px] font-semibold text-neutral-300 hover:text-white transition-colors">
                   (718) 213-3279
@@ -491,10 +477,24 @@ export default function App() {
             </div>
 
             {/* Bottom bar */}
-            <div className="border-t border-neutral-800 pt-6">
+            <div className="border-t border-neutral-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-[9px] font-medium tracking-widest uppercase text-neutral-500">
                 © 2026 W LUXURY. ALL RIGHTS RESERVED.
               </p>
+              <a
+                href="http://zumbyte.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[9px] font-medium tracking-widest uppercase text-neutral-500 hover:text-white transition-colors group"
+              >
+                <span>Site by</span>
+                <span className="font-bold group-hover:text-[#C5A059] transition-colors">Zumbyte</span>
+                <img
+                  src="/assets/logos/zumbyte.png"
+                  alt="Zumbyte Logo"
+                  className="w-4 h-4 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                />
+              </a>
             </div>
           </div>
         </footer>

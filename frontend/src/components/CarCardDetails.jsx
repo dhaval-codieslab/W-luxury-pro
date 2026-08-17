@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { X, User, Briefcase, Info, Navigation, Car } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, User, Briefcase, Shield, Sparkles, Volume2, Gauge, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import PriceDetailsModal from './PriceDetailsModal';
 
 export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
+  const [selectedPhotoIdx, setSelectedPhotoIdx] = useState(0);
   const [bookingOption, setBookingOption] = useState('bestPrice');
   const [mileage, setMileage] = useState('included');
   const [isPriceDetailsModalOpen, setIsPriceDetailsModalOpen] = useState(false);
-  const [viewMode, setViewMode] = useState('side'); // 'side', 'front', 'back'
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // Swipe gesture detection state
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-
-  // Rates directly matching details
-  const stayFlexibleRate = 4.79;
-  const unlimitedMileageRate = 4.55;
-
-  const VIEWS = ['side', 'front', 'back'];
-  const activeIndex = VIEWS.indexOf(viewMode);
+  // Available photos list (combines photos array or falls back to main image)
+  const photosList = car.photos && car.photos.length > 0 ? car.photos : [car.image];
+  const activeImage = photosList[selectedPhotoIdx] || car.image;
 
   // Calculate rental days
   const getDays = () => {
@@ -29,440 +21,244 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
       return diffDays;
     }
-    return 15; // default for UI math based on screenshot
+    return 10;
   };
   const days = getDays();
-  
-  // Calculate daily rate
-  let dailyRate = car.baseRate || 92.11; 
+
+  const stayFlexibleRate = 4.79;
+  const unlimitedMileageRate = 4.55;
+
+  let dailyRate = car.baseRate || 220;
   if (bookingOption === 'stayFlexible') dailyRate += stayFlexibleRate;
   if (mileage === 'unlimited') dailyRate += unlimitedMileageRate;
-  
-  const totalRate = dailyRate * days;
 
-  // Keyboard navigation listener
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') {
-        setViewMode((prev) => {
-          const idx = VIEWS.indexOf(prev);
-          return VIEWS[(idx - 1 + VIEWS.length) % VIEWS.length];
-        });
-      } else if (e.key === 'ArrowRight') {
-        setViewMode((prev) => {
-          const idx = VIEWS.indexOf(prev);
-          return VIEWS[(idx + 1) % VIEWS.length];
-        });
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Swipe detection handlers
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-    if (isLeftSwipe) {
-      setViewMode(VIEWS[(activeIndex + 1) % VIEWS.length]);
-    } else if (isRightSwipe) {
-      setViewMode(VIEWS[(activeIndex - 1 + VIEWS.length) % VIEWS.length]);
-    }
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
+  const totalRate = (dailyRate * days).toFixed(2);
 
   const handleNext = () => {
     onNext(car, bookingOption, mileage);
   };
 
-  const getImageStyle = () => {
-    if (viewMode === 'front') {
-      return {
-        transform: 'perspective(600px) rotateY(-15deg) translateX(-25px) scale(1.02)',
-        transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)'
-      };
-    }
-    if (viewMode === 'back') {
-      return {
-        transform: 'perspective(600px) rotateY(15deg) translateX(25px) scale(1.02)',
-        transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)'
-      };
-    }
-    return {
-      transform: 'perspective(600px) rotateY(0deg) translateX(0px) scale(1.05)',
-      transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)'
-    };
+  const specs = car.specs || {
+    capacity: `${car.seats || 7} Passengers | ${car.suitcases || 4} Large Suitcases + 2 Carry-ons`,
+    cabin: "Premium Leather Seating | Panoramic Sunroof | Multi-Zone Climate Control",
+    audioTech: "High-Definition Premium Audio | Touchscreen Navigation & Apple CarPlay",
+    performance: "High-Output V8/Turbocharged Engine | Adaptive Smooth Ride Suspension",
+    inclusions: "100 Miles Included/Day | White-Glove Delivery Available"
   };
 
   return (
-    <div className="relative bg-[#121212] w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col justify-between select-none h-[560px] md:h-[500px]">
+    <div data-lenis-prevent className="relative bg-[#141414] w-full rounded-[28px] shadow-2xl border border-neutral-800 overflow-hidden text-white">
       
-      {/* Outer Close Button Overlay */}
-      <button 
-        type="button"
-        onClick={onClose} 
-        className={`absolute top-5 transition-all duration-500 z-[25] text-neutral-400 hover:text-white bg-neutral-900/60 backdrop-blur-md p-2 rounded-full border border-neutral-800 hover:scale-105 active:scale-95 shadow-lg ${
-          isPanelOpen ? 'right-5 lg:right-[480px]' : 'right-5'
-        }`}
-        title="Close details"
-      >
-        <X className="w-5 h-5 stroke-[2]" />
-      </button>
-
-      {/* Featured Vehicle Header Watermark */}
-      <div className={`absolute top-6 left-0 right-0 text-center pointer-events-none z-10 pl-24 transition-all duration-500 ${
-        isPanelOpen ? 'pr-24 md:pr-24 lg:pr-[484px]' : 'pr-24 md:pr-24'
-      }`}>
-        <h3 className="font-condensed font-normal text-2xl md:text-4xl text-white uppercase tracking-wider leading-none drop-shadow-md">
-          {car.name}
-        </h3>
-        <p className="text-[#C5A059] font-bold text-[11px] uppercase tracking-widest mt-2">
-          {car.category}
-        </p>
-      </div>
-
-      {/* Primary Large Image Showcase Area */}
-      <div 
-        className={`flex-grow flex items-center justify-center relative w-full h-full pl-4 md:pl-12 transition-all duration-500 ${
-          isPanelOpen ? 'pr-4 md:pr-12 lg:pr-[472px]' : 'pr-4 md:pr-12'
-        }`}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {/* Left Arrow Navigation Overlay */}
-        <button
-          type="button"
-          onClick={() => setViewMode(VIEWS[(activeIndex - 1 + VIEWS.length) % VIEWS.length])}
-          className="absolute left-4 md:left-8 z-[20] w-11 h-11 rounded-full bg-neutral-900/75 border border-neutral-800 text-white flex items-center justify-center hover:bg-neutral-800 hover:border-neutral-700 hover:scale-105 active:scale-95 transition-all shadow-lg"
-          title="Previous view"
-        >
-          <span className="text-xl font-bold select-none">&lt;</span>
-        </button>
-
-        {/* Center Large Vehicle Image Frame */}
-        <div className="w-[90%] max-w-[650px] flex items-center justify-center overflow-visible h-[240px] md:h-[300px]">
-          <img 
-            src={car.image} 
-            alt={car.name}
-            className="w-full h-auto object-contain drop-shadow-[0_25px_30px_rgba(0,0,0,0.85)] transition-all duration-700 ease-out" 
-            style={getImageStyle()}
-          />
-        </div>
-
-        {/* Right Arrow Navigation Overlay */}
-        <button
-          type="button"
-          onClick={() => setViewMode(VIEWS[(activeIndex + 1) % VIEWS.length])}
-          className={`absolute z-[20] w-11 h-11 rounded-full bg-neutral-900/75 border border-neutral-800 text-white flex items-center justify-center hover:bg-neutral-800 hover:border-neutral-700 hover:scale-105 active:scale-95 transition-all shadow-lg ${
-            isPanelOpen ? 'right-4 md:right-8 lg:right-[484px]' : 'right-4 md:right-8'
-          }`}
-          title="Next view"
-        >
-          <span className="text-xl font-bold select-none">&gt;</span>
-        </button>
-
-        {/* Dynamic view caption watermark */}
-        <span className="absolute bottom-16 text-[9.5px] uppercase tracking-widest font-black text-white/30 pointer-events-none select-none">
-          {viewMode === 'side' && 'Side View'}
-          {viewMode === 'front' && 'Front Angle'}
-          {viewMode === 'back' && 'Rear Angle'}
-        </span>
-      </div>
-
-      {/* Bottom Specs Strip & Primary Trigger */}
-      <div className={`w-full bg-neutral-950/85 backdrop-blur-md border-t border-neutral-900 py-4 pl-6 md:pl-10 flex flex-col md:flex-row items-center justify-between gap-4 z-[20] shrink-0 transition-all duration-500 ${
-        isPanelOpen ? 'pr-6 md:pr-10 lg:pr-[490px]' : 'pr-6 md:pr-10'
-      }`}>
-        {/* Left Specs */}
-        <div className="flex items-center justify-center md:justify-start gap-6 w-full md:flex-1 md:w-auto order-2 md:order-1">
-          {/* Seats Stacked Layout */}
-          <div className="flex items-center gap-2 text-left">
-            <User className="w-5 h-5 text-neutral-500" />
-            <div className="flex flex-col leading-tight">
-              <span className="text-[14px] font-black text-white">{car.seats}</span>
-              <span className="text-[9.5px] font-bold text-neutral-500 uppercase tracking-wider">Seats</span>
-            </div>
-          </div>
-          
-          {/* Bags Stacked Layout */}
-          <div className="flex items-center gap-2 text-left">
-            <Briefcase className="w-5 h-5 text-neutral-500" />
-            <div className="flex flex-col leading-tight">
-              <span className="text-[14px] font-black text-white">{car.suitcases || car.bags || 2}</span>
-              <span className="text-[9.5px] font-bold text-neutral-500 uppercase tracking-wider">Bags</span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Center CTA Button */}
-        <div className="flex items-center justify-center w-full md:shrink-0 md:w-auto order-1 md:order-2">
-          <button
-            type="button"
-            onClick={() => setIsPanelOpen(true)}
-            className={`w-full bg-[#C5A059] hover:bg-[#B28F4B] active:scale-95 text-white py-3.5 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-all shadow-md flex items-center justify-center ${
-              isPanelOpen ? 'md:w-[180px] lg:w-[120px]' : 'md:w-[180px]'
-            }`}
-          >
-            Book Now
-          </button>
-        </div>
-
-        {/* Right Specs */}
-        <div className="flex items-center justify-center md:justify-end gap-5 w-full md:flex-1 md:w-auto order-3 md:order-3">
-          <div className="flex items-center gap-1.5 text-left shrink-0">
-            <span className="w-5 h-5 bg-neutral-800 text-neutral-300 rounded flex items-center justify-center text-[10px] font-black leading-none shadow-sm">A</span>
-            <span className="text-[12px] font-bold text-neutral-400 font-sans">Automatic</span>
-          </div>
-          <span className="text-[#C5A059] font-black text-[13px] shrink-0">
-            ${(car.baseRate || 92.11).toFixed(2)}/day
-          </span>
-        </div>
-      </div>
-
-      {/* Expandable Details Panel Overlay Backdrop */}
-      <div 
-        className={`absolute inset-0 bg-black/55 z-[30] transition-opacity duration-300 lg:hidden ${
-          isPanelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setIsPanelOpen(false)}
-      />
-
-      {/* Expandable Sliding Details Panel Sheet */}
-      <div 
-        className={`absolute z-[40] bg-white transition-all duration-500 ease-out flex flex-col shadow-2xl ${
-          // Desktop: slides from right
-          'lg:top-0 lg:bottom-0 lg:right-0 lg:left-auto lg:w-[460px] lg:h-full lg:border-l lg:border-neutral-200'
-        } ${
-          // Mobile/Tablet: slides up from bottom
-          'top-auto bottom-0 left-0 right-0 h-[85%] lg:h-full rounded-t-3xl lg:rounded-none'
-        } ${
-          isPanelOpen 
-            ? 'translate-x-0 translate-y-0' 
-            : 'lg:translate-x-full translate-y-full lg:translate-y-0'
-        }`}
-      >
-        {/* Panel Header */}
-        <div className="p-5 border-b border-neutral-100 flex items-center justify-between shrink-0">
-          <div className="text-left">
-            <span className="text-[10px] uppercase tracking-wider font-extrabold text-[#C5A059] block">
-              Booking Details
-            </span>
-            <h4 className="font-condensed font-normal text-2xl text-neutral-900 uppercase tracking-wide leading-none mt-1">
+      {/* Top Header Row with Close Button */}
+      <div className="flex items-center justify-between px-6 md:px-8 py-5 border-b border-neutral-800/80 bg-neutral-950/60 backdrop-blur-md">
+        <div className="text-left">
+          <div className="flex items-center gap-3">
+            <h3 className="font-sans font-bold text-xl md:text-2xl text-white uppercase tracking-tight">
               {car.name}
-            </h4>
-          </div>
-          <button 
-            type="button"
-            onClick={() => setIsPanelOpen(false)} 
-            className="text-neutral-400 hover:text-neutral-900 transition-colors p-1.5 rounded-full hover:bg-neutral-100"
-          >
-            <X className="w-5 h-5 stroke-[2.5]" />
-          </button>
-        </div>
-
-        {/* Panel Scrollable Body */}
-        <div data-lenis-prevent className="p-4 flex-grow min-h-0 overflow-y-auto premium-scrollbar space-y-4 text-left">
-          
-          {/* Booking options */}
-          <div>
-            <h5 className="font-bold text-[12px] text-neutral-400 uppercase tracking-wider mb-1.5">
-              Booking Option
-            </h5>
-            <div className="space-y-2">
-              <div 
-                onClick={() => setBookingOption('bestPrice')}
-                className={`border rounded-xl py-2 px-3 flex cursor-pointer transition-all ${
-                  bookingOption === 'bestPrice' 
-                    ? 'border-[2px] border-neutral-900 bg-neutral-50/50 shadow-sm' 
-                    : 'border-neutral-200 hover:border-neutral-300'
-                }`}
-              >
-                <div className={`flex-shrink-0 w-4 h-4 rounded-full border-[2px] flex items-center justify-center mr-3 mt-0.5 ${
-                  bookingOption === 'bestPrice' ? 'border-neutral-900' : 'border-neutral-200'
-                }`}>
-                  {bookingOption === 'bestPrice' && <div className="w-2 h-2 bg-neutral-900 rounded-full" />}
-                </div>
-                <div className="flex-grow text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-neutral-900 text-[13px]">Best price</span>
-                    <span className="font-bold text-neutral-900 text-[12px] flex items-center gap-1">
-                      Included <Info className="w-3.5 h-3.5 text-neutral-800" />
-                    </span>
-                  </div>
-                  <p className="text-neutral-500 text-[11px] mt-0.5 pr-6 leading-snug">
-                    Pay now, cancel and rebook for a fee
-                  </p>
-                </div>
-              </div>
-              
-              <div 
-                onClick={() => setBookingOption('stayFlexible')}
-                className={`border rounded-xl py-2 px-3 flex cursor-pointer transition-all ${
-                  bookingOption === 'stayFlexible' 
-                    ? 'border-[2px] border-neutral-900 bg-neutral-50/50 shadow-sm' 
-                    : 'border-neutral-200 hover:border-neutral-300'
-                }`}
-              >
-                <div className={`flex-shrink-0 w-4 h-4 rounded-full border-[2px] flex items-center justify-center mr-3 mt-0.5 ${
-                  bookingOption === 'stayFlexible' ? 'border-neutral-900' : 'border-neutral-200'
-                }`}>
-                  {bookingOption === 'stayFlexible' && <div className="w-2 h-2 bg-neutral-900 rounded-full" />}
-                </div>
-                <div className="flex-grow text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-neutral-900 text-[13px]">Stay flexible</span>
-                    <div className="flex items-center gap-2">
-                      <span className="bg-[#C5A059] text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
-                        Popular
-                      </span>
-                      <span className="font-bold text-neutral-900 text-[12px] flex items-center gap-1">
-                        + $ {stayFlexibleRate.toFixed(2)} / day <Info className="w-3.5 h-3.5 text-neutral-800" />
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-neutral-500 text-[11px] mt-0.5 pr-4 leading-snug">
-                    Pay at pickup, free cancellation and rebooking any time
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Mileage options */}
-          <div>
-            <h5 className="font-bold text-[12px] text-neutral-400 uppercase tracking-wider mb-1.5">
-              Mileage Limit
-            </h5>
-            <div className="space-y-2">
-              <div 
-                onClick={() => setMileage('included')}
-                className={`border rounded-xl py-2 px-3 flex cursor-pointer transition-all ${
-                  mileage === 'included' 
-                    ? 'border-[2px] border-neutral-900 bg-neutral-50/50 shadow-sm' 
-                    : 'border-neutral-200 hover:border-neutral-300'
-                }`}
-              >
-                <div className={`flex-shrink-0 w-4 h-4 rounded-full border-[2px] flex items-center justify-center mr-3 mt-0.5 ${
-                  mileage === 'included' ? 'border-neutral-900' : 'border-neutral-200'
-                }`}>
-                  {mileage === 'included' && <div className="w-2 h-2 bg-neutral-900 rounded-full" />}
-                </div>
-                <div className="flex-grow text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-neutral-900 text-[13px]">2,820 km</span>
-                    <span className="font-bold text-neutral-900 text-[12px]">Included</span>
-                  </div>
-                  <p className="text-neutral-500 text-[11px] mt-0.5 leading-snug">
-                    +$0.91 for every additional km
-                  </p>
-                </div>
-              </div>
-              
-              <div 
-                onClick={() => setMileage('unlimited')}
-                className={`border rounded-xl py-2 px-3 flex cursor-pointer transition-all ${
-                  mileage === 'unlimited' 
-                    ? 'border-[2px] border-neutral-900 bg-neutral-50/50 shadow-sm' 
-                    : 'border-neutral-200 hover:border-neutral-300'
-                }`}
-              >
-                <div className={`flex-shrink-0 w-4 h-4 rounded-full border-[2px] flex items-center justify-center mr-3 mt-0.5 ${
-                  mileage === 'unlimited' ? 'border-neutral-900' : 'border-neutral-200'
-                }`}>
-                  {mileage === 'unlimited' && <div className="w-2 h-2 bg-neutral-900 rounded-full" />}
-                </div>
-                <div className="flex-grow text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-neutral-900 text-[13px]">Unlimited kilometers</span>
-                    <span className="font-bold text-neutral-900 text-[12px]">
-                      + $ {unlimitedMileageRate.toFixed(2)} / day
-                    </span>
-                  </div>
-                  <p className="text-neutral-500 text-[11px] mt-0.5 leading-snug">
-                    All kilometers are included in the price
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Specifications & Features list */}
-          <div>
-            <h5 className="font-bold text-[12px] text-neutral-400 uppercase tracking-wider mb-2.5">
-              Specifications & Features
-            </h5>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[12px] text-neutral-600 font-sans font-medium">
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
-                <span className="text-neutral-400">Category</span>
-                <span className="text-neutral-950 font-bold">{car.category}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
-                <span className="text-neutral-400">Transmission</span>
-                <span className="text-neutral-950 font-bold">{car.transmission}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
-                <span className="text-neutral-400">Seats</span>
-                <span className="text-neutral-950 font-bold">{car.seats}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
-                <span className="text-neutral-400">Bags / Suitcases</span>
-                <span className="text-neutral-950 font-bold">{car.suitcases || car.bags || 2}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
-                <span className="text-neutral-400">Doors</span>
-                <span className="text-neutral-950 font-bold">{car.doors || 4}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
-                <span className="text-neutral-400">GPS Navigation</span>
-                <span className="text-neutral-950 font-bold">{car.gps ? 'Yes' : 'No'}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Panel Sticky Footer */}
-        <div className="bg-white border-t border-neutral-100 px-6 py-4 flex items-center justify-between mt-auto relative z-10 shrink-0">
-          <div className="flex flex-col text-left">
-            <span className="font-bold text-[13px] text-neutral-400">Total Price</span>
-            <span className="font-black text-[22px] text-neutral-900 mt-0.5">
-              ${totalRate.toFixed(2)}
+            </h3>
+            <span className="text-xs font-bold text-[#C5A059] bg-[#C5A059]/15 border border-[#C5A059]/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              {car.tagline || "or similar"}
             </span>
-            <button 
+          </div>
+          <p className="text-[12px] text-neutral-400 mt-0.5">
+            {car.category} • Guaranteed Luxury Class
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 p-2.5 rounded-full border border-neutral-700/80 transition-all active:scale-95 shadow-md"
+          title="Close details"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Main Two-Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[500px]">
+        
+        {/* Left Column: Photo Showcase & Gallery (7 cols) */}
+        <div className="lg:col-span-7 p-6 md:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-neutral-800/80 bg-[#121212]">
+          
+          {/* Main Large Image Container */}
+          <div className="relative w-full h-[260px] md:h-[340px] rounded-2xl overflow-hidden bg-neutral-900/60 border border-neutral-800 flex items-center justify-center group">
+            <img
+              src={activeImage}
+              alt={car.name}
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+
+            {/* Prev / Next Photo Chevrons */}
+            {photosList.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPhotoIdx((prev) => (prev - 1 + photosList.length) % photosList.length)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all active:scale-90"
+                  aria-label="Previous photo"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPhotoIdx((prev) => (prev + 1) % photosList.length)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all active:scale-90"
+                  aria-label="Next photo"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </>
+            )}
+
+            {/* Photo Counter Badge */}
+            {photosList.length > 1 && (
+              <span className="absolute bottom-3 right-3 bg-black/70 text-white text-[11px] font-bold px-2.5 py-1 rounded-full border border-white/10">
+                {selectedPhotoIdx + 1} / {photosList.length} Photos
+              </span>
+            )}
+          </div>
+
+          {/* Quick Features Row */}
+          <div className="grid grid-cols-3 gap-3 mt-6 pt-4 border-t border-neutral-800/80">
+            <div className="bg-neutral-900/80 rounded-xl p-3 border border-neutral-800 text-left flex items-center gap-3">
+              <User className="w-5 h-5 text-[#C5A059]" />
+              <div>
+                <p className="text-[10px] text-neutral-400 uppercase font-bold">Seats</p>
+                <p className="text-sm font-bold text-white">{car.seats} Passengers</p>
+              </div>
+            </div>
+            <div className="bg-neutral-900/80 rounded-xl p-3 border border-neutral-800 text-left flex items-center gap-3">
+              <Briefcase className="w-5 h-5 text-[#C5A059]" />
+              <div>
+                <p className="text-[10px] text-neutral-400 uppercase font-bold">Luggage</p>
+                <p className="text-sm font-bold text-white">{car.suitcases || 4} Bags</p>
+              </div>
+            </div>
+            <div className="bg-neutral-900/80 rounded-xl p-3 border border-neutral-800 text-left flex items-center gap-3">
+              <Shield className="w-5 h-5 text-[#C5A059]" />
+              <div>
+                <p className="text-[10px] text-neutral-400 uppercase font-bold">Transmission</p>
+                <p className="text-sm font-bold text-white">{car.transmission || "Automatic"}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Car Specs & Booking Action (5 cols) */}
+        <div data-lenis-prevent className="lg:col-span-5 p-6 md:p-7 flex flex-col justify-between bg-[#171717] text-left max-h-[520px] md:max-h-[540px] overflow-hidden">
+          
+          {/* Section Header */}
+          <div className="flex items-center justify-between border-b border-neutral-800 pb-3 mb-2 shrink-0">
+            <h4 className="font-condensed font-bold text-xs uppercase tracking-widest text-[#C5A059]">
+              VEHICLE SPECIFICATIONS
+            </h4>
+            <span className="text-[11px] text-neutral-400 font-semibold">
+              Official Catalog Specs
+            </span>
+          </div>
+
+          {/* Scrollable Specs List with Gold Custom Scrollbar */}
+          <div 
+            data-lenis-prevent
+            onWheel={(e) => e.stopPropagation()}
+            className="space-y-3.5 overflow-y-auto specs-scrollbar pr-2.5 my-2 max-h-[280px] md:max-h-[300px] overscroll-contain"
+          >
+            {/* Spec 1: Capacity */}
+            {specs.capacity && (
+              <div className="bg-neutral-900/70 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700/80 transition-colors">
+                <div className="flex items-center gap-2 mb-1">
+                  <User className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-300">Capacity</span>
+                </div>
+                <p className="text-[13px] text-white/90 font-medium leading-relaxed">
+                  {specs.capacity}
+                </p>
+              </div>
+            )}
+
+            {/* Spec 2: Cabin Experience */}
+            {specs.cabin && (
+              <div className="bg-neutral-900/70 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700/80 transition-colors">
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-300">Cabin Experience</span>
+                </div>
+                <p className="text-[13px] text-white/90 font-medium leading-relaxed">
+                  {specs.cabin}
+                </p>
+              </div>
+            )}
+
+            {/* Spec 3: Audio & Tech */}
+            {specs.audioTech && (
+              <div className="bg-neutral-900/70 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700/80 transition-colors">
+                <div className="flex items-center gap-2 mb-1">
+                  <Volume2 className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-300">Audio & Tech</span>
+                </div>
+                <p className="text-[13px] text-white/90 font-medium leading-relaxed">
+                  {specs.audioTech}
+                </p>
+              </div>
+            )}
+
+            {/* Spec 4: Performance */}
+            {specs.performance && (
+              <div className="bg-neutral-900/70 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700/80 transition-colors">
+                <div className="flex items-center gap-2 mb-1">
+                  <Gauge className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-300">Performance</span>
+                </div>
+                <p className="text-[13px] text-white/90 font-medium leading-relaxed">
+                  {specs.performance}
+                </p>
+              </div>
+            )}
+
+            {/* Spec 5: Inclusions (if applicable) */}
+            {specs.inclusions && (
+              <div className="bg-neutral-900/70 p-3.5 rounded-xl border border-neutral-800/80 hover:border-neutral-700/80 transition-colors">
+                <div className="flex items-center gap-2 mb-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-300">Inclusions</span>
+                </div>
+                <p className="text-[13px] text-white/90 font-medium leading-relaxed">
+                  {specs.inclusions}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Pricing & CTA Card (Fixed at bottom) */}
+          <div className="mt-3 pt-4 border-t border-neutral-800 shrink-0">
+            <div className="flex items-baseline justify-between mb-3">
+              <div>
+                <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Estimated Rate</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl md:text-3xl font-black text-white">${dailyRate}</span>
+                  <span className="text-neutral-400 text-xs font-semibold">/ day</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Total ({days} Days)</p>
+                <p className="text-xl font-bold text-[#C5A059]">${totalRate}</p>
+              </div>
+            </div>
+
+            <button
               type="button"
-              onClick={() => setIsPriceDetailsModalOpen(true)}
-              className="text-neutral-950 font-bold text-[12px] underline hover:text-[#C5A059] transition-colors w-fit mt-1 text-left"
+              onClick={handleNext}
+              className="w-full bg-[#C5A059] hover:bg-[#B28F4B] active:scale-[0.98] text-white py-3.5 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2"
             >
-              Price details
+              Continue to Book
             </button>
           </div>
-          
-          <button 
-            type="button"
-            onClick={handleNext}
-            className="bg-[#C5A059] hover:bg-[#B28F4B] active:scale-95 text-white px-10 py-3.5 rounded-xl font-bold text-[15px] transition-all flex items-center justify-center shadow-md uppercase tracking-wider"
-          >
-            Next
-          </button>
+
         </div>
+
       </div>
 
-      <PriceDetailsModal 
-        isOpen={isPriceDetailsModalOpen} 
-        onClose={() => setIsPriceDetailsModalOpen(false)} 
-        totalPrice={totalRate} 
-      />
     </div>
   );
 }

@@ -29,3 +29,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw heavy uncompressed media
+public/assets/SuburbanDay.mp4
+

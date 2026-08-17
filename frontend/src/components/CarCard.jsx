@@ -36,40 +36,22 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
 
   useGSAP(() => {
     gsap.from(cardRef.current, {
-      y: 100,
+      y: 50,
       opacity: 0,
-      duration: 0.8,
+      duration: 0.6,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: cardRef.current,
-        start: 'top 90%',
+        start: 'top 95%',
         toggleActions: 'play none none reverse'
       }
     });
   }, []);
 
-  const getCardTitle = () => {
-    let cat = car.category;
-    // Remove body types from the main title category text
-    cat = cat.replace(/SUV|Convertible|Sedan|Sports|Electric|Automatic|Car/ig, '').trim();
-    return `${cat.toUpperCase()} (${car.name.toUpperCase()})`;
-  };
+  const daysCount = searchParams ? getRentalDays(searchParams.pickupDate, searchParams.returnDate) : 1;
+  const totalVal = (car.baseRate * daysCount).toFixed(2);
 
-  const getCardSubtitle = () => {
-    const catLower = car.category.toLowerCase();
-    const bodyType = catLower.includes('suv')
-      ? 'SUV'
-      : catLower.includes('convertible')
-        ? 'Convertible'
-        : catLower.includes('sports')
-          ? 'Sports'
-          : catLower.includes('electric')
-            ? 'Electric'
-            : 'Sedan';
-    return `or similar | ${bodyType}`;
-  };
-
-  // Fleet View variant (Spotlight background, check availability button, no pricing)
+  // Fleet View variant
   if (viewMode === 'fleet') {
     return (
       <div
@@ -79,14 +61,13 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
       >
         {/* Top Details */}
         <div className="z-10 relative text-left">
-          <h3 className="font-condensed font-normal text-[22px] md:text-2xl text-white tracking-wide uppercase leading-tight group-hover:text-[#C5A059] premium-transition">
-            {getCardTitle()}
+          <h3 className="font-condensed font-bold text-[22px] md:text-2xl text-white tracking-wide uppercase leading-tight group-hover:text-[#C5A059] premium-transition">
+            {car.name}
           </h3>
-          <p className="text-xs font-bold text-neutral-400 mt-1">
-            {getCardSubtitle()}
+          <p className="text-xs font-semibold text-[#C5A059] mt-1">
+            or similar
           </p>
 
-          {/* Feature Badges Row (Single horizontal row) */}
           <div className="flex flex-wrap items-center gap-2 mt-4 text-[11px] font-bold">
             <span className="bg-white/10 text-white px-2.5 py-1.5 rounded-full flex items-center gap-1.5">
               <User className="w-3.5 h-3.5 text-white stroke-[2.5]" /> {car.seats}
@@ -95,42 +76,18 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
               <Briefcase className="w-3.5 h-3.5 text-white stroke-[2.5]" /> {car.suitcases}
             </span>
             <span className="bg-white/10 text-white px-2.5 py-1.5 rounded-full flex items-center gap-1.5">
-              <span className="w-4 h-4 bg-white text-black rounded flex items-center justify-center text-[9px] font-black leading-none">
-                {car.transmission === 'Automatic' ? 'A' : 'M'}
-              </span>
+              <span className="w-4 h-4 bg-white text-black rounded flex items-center justify-center text-[9px] font-black leading-none">A</span>
               {car.transmission}
             </span>
           </div>
         </div>
 
-        {/* Studio Background Gradient matching reference image */}
-        <div
-          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 group-hover:scale-105"
-          style={{
-            background: 'linear-gradient(to bottom, #1b1d1f 0%, #2b2f33 35%, #464f54 55%, #8c9da3 75%, #131416 85%, #0e0e10 100%)'
-          }}
-        >
-          {/* Add a subtle radial glow in the center to make it look like a spotlight on the wall */}
-          <div
-            className="absolute inset-0 opacity-60"
-            style={{
-              background: 'radial-gradient(120% 60% at 50% 75%, #a6b8be 0%, transparent 50%)'
-            }}
-          />
-        </div>
-
-        {/* Unique Hover Glow Aura */}
-        <div className="absolute inset-0 z-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-          <div className="w-[70%] h-[30%] bg-[#C5A059] rounded-full blur-[50px] translate-x-4 translate-y-4 mix-blend-screen opacity-80" />
-        </div>
-
-        {/* Center Car Image */}
-        <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden flex flex-col items-center justify-center">
+        {/* Center Image */}
+        <div className="relative z-10 w-full h-[180px] flex items-center justify-center my-auto overflow-hidden rounded-xl">
           <img
             src={car.image}
             alt={car.name}
-            className="relative z-10 w-[85%] h-auto object-contain translate-y-4 transform group-hover:translate-x-10 group-hover:scale-[1.15] transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] drop-shadow-2xl"
-            style={car.image.endsWith('.webp') ? { mixBlendMode: 'multiply' } : {}}
+            className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-all duration-500"
           />
         </div>
 
@@ -147,78 +104,64 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
     );
   }
 
-  // Search Results View variant (Exactly styled like image2 but with light gray background #f4f4f4)
-  const daysCount = searchParams ? getRentalDays(searchParams.pickupDate, searchParams.returnDate) : 1;
-  const dateStr = searchParams 
-    ? `${searchParams.pickupDate} — ${searchParams.returnDate} | ${daysCount} ${daysCount === 1 ? 'day' : 'days'}` 
-    : `9 — 9 Jul 2026 | 1 day`;
-
+  // Standard Results View Card
   return (
-    <div ref={cardRef} className={`relative w-full mt-20 md:mt-24 ${isSelected ? 'z-40' : 'z-10'} group`}>
-      {/* Overflowing Car Image */}
-      <div className="absolute -top-20 md:-top-24 lg:-top-28 left-[44%] -translate-x-1/2 w-[68%] md:w-[72%] z-20 pointer-events-none select-none">
+    <div
+      ref={cardRef}
+      onClick={() => onClick(car)}
+      className={`relative w-full h-[390px] md:h-[410px] rounded-[24px] overflow-hidden p-6 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-md select-none bg-[#f7f7f7] group ${
+        isSelected ? 'border-[3px] border-[#C5A059] shadow-lg' : 'border border-neutral-200/80 hover:border-neutral-300'
+      }`}
+    >
+      {/* 1. Name of car, top left + "or similar" underneath in beige */}
+      <div className="text-left z-10">
+        <h3 className="font-sans font-bold text-[18px] md:text-[20px] text-[#191919] tracking-tight leading-tight uppercase group-hover:text-[#C5A059] transition-colors line-clamp-1">
+          {car.name}
+        </h3>
+        <p className="text-[12px] font-semibold text-[#C5A059] mt-0.5">
+          or similar
+        </p>
+      </div>
+
+      {/* 2. The car itself, centered in standard taller container without any clipping */}
+      <div className="w-full h-[220px] md:h-[240px] my-2 relative overflow-hidden rounded-2xl bg-neutral-100 flex items-center justify-center shadow-sm">
         <img
           src={car.image}
           alt={car.name}
-          className="w-full h-auto object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,0.18)] transition-all duration-500 ease-out group-hover:translate-x-12"
+          className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
 
-      <div
-        onClick={() => onClick(car)}
-        className={`relative w-full rounded-[28px] overflow-hidden px-6 md:px-8 pb-6 pt-28 md:pt-32 lg:pt-36 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-md select-none bg-[#f4f4f4] ${isSelected ? 'border-[3px] border-[#C5A059]' : 'border border-neutral-200/50 hover:border-neutral-300'}`}
-      >
-        {/* Light Bronze Gold Shadow / Glow around car on hover (Strictly contained inside card) */}
-        <div className="absolute top-0 left-0 right-0 h-[65%] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden z-0">
-          <div className="absolute top-3 left-[44%] -translate-x-1/2 w-[85%] h-[130px] bg-[#C5A059]/30 rounded-full blur-[40px]" />
-        </div>
-        {/* Details and Pricing matching image2 layout */}
-        <div className="flex-grow flex flex-col text-left">
-          <div>
-            {/* Title with Arrow */}
-            <h3 className="font-sans font-extrabold text-[22px] text-[#191919] tracking-tight leading-tight flex items-center gap-1.5 hover:text-[#C5A059] transition-colors uppercase">
-              {car.name} 
-              <span className="text-neutral-400 font-light group-hover:translate-x-1 transition-transform duration-200 inline-block">→</span>
-            </h3>
-            
-            {/* Date range in format "9 — 9 Jul 2026" */}
-            <p className="text-[14px] text-[#191919]/70 font-semibold mt-1.5">
-              {dateStr}
-            </p>
+      {/* 3. Bottom Row: Price per day, Total and rental days next to it, and Book Now button */}
+      <div className="flex items-center justify-between pt-3 border-t border-neutral-200/60 mt-auto z-10">
+        {/* Left Side: Pricing details on one line */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left">
+          {/* Daily Price */}
+          <div className="flex items-baseline text-[#191919]">
+            <span className="text-xl md:text-2xl font-extrabold tracking-tight">${car.baseRate}</span>
+            <span className="text-neutral-500 text-[12px] font-semibold ml-0.5">/ day</span>
           </div>
 
-          {/* Pricing Row: Daily price and Dynamic Total */}
-          {(() => {
-            const totalVal = (car.baseRate * daysCount + 0.88).toFixed(2);
-            return (
-              <div className="flex items-center justify-between mt-3.5 pt-1">
-                <div className="flex flex-col text-left">
-                  {/* Daily Price */}
-                  <div className="flex items-baseline text-[#191919]">
-                    <span className="text-2xl font-extrabold tracking-tight">$</span>
-                    <span className="text-3xl font-black tracking-tight leading-none">{car.baseRate}</span>
-                    <span className="text-[#191919]/50 text-[13px] font-semibold ml-1">/ day</span>
-                  </div>
-                  
-                  {/* Total Price */}
-                  <span className="text-neutral-400 text-[12px] font-semibold mt-0.5 block">
-                    ${totalVal} total
-                  </span>
-                </div>
+          {/* Separator */}
+          <span className="text-neutral-300 font-light hidden sm:inline">|</span>
 
-                {/* Bronze Gold Book Now Button */}
-                <button 
-                  type="button"
-                  className="bg-[#C5A059] hover:bg-[#B28F4B] text-white font-bold text-[13px] px-6 py-2.5 rounded-full shadow-sm transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center whitespace-nowrap"
-                >
-                  Book Now
-                </button>
-              </div>
-            );
-          })()}
+          {/* Total amount and rental days in the same location */}
+          <div className="text-[12px] md:text-[13px] text-neutral-600 font-semibold flex items-center gap-1.5">
+            <span className="font-bold text-neutral-900">${totalVal} total</span>
+            <span className="text-neutral-400">•</span>
+            <span>{daysCount} {daysCount === 1 ? 'day' : 'days'} rental</span>
+          </div>
         </div>
+
+        {/* Right Side: Book Now Button */}
+        <button
+          type="button"
+          className="bg-[#C5A059] hover:bg-[#B28F4B] active:scale-95 text-white font-bold text-[12px] md:text-[13px] px-5 py-2.5 rounded-full shadow-sm transition-all duration-200 hover:scale-[1.02] whitespace-nowrap ml-2"
+        >
+          Book Now
+        </button>
       </div>
-      
+
       {/* Caret for selected state */}
       {isSelected && (
         <div className="absolute -bottom-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-[#C5A059] rotate-45 z-[-1]" />

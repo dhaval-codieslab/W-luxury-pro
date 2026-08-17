@@ -424,58 +424,94 @@ const BoutiqueCarousel = () => {
 
 const popularTypesList = [
   {
-    title: "LUXURY 5 SEATER SUV",
-    subtitle: "Mercedes-Benz G-Class or similar",
-    seats: 5,
-    suitcases: 4,
-    transmission: "Automatic",
-    image: "/assets/cars/g_class.png",
-    desc: "Travel in comfort with space for five."
-  },
-  {
-    title: "LUXURY 7 SEATER SUV",
-    subtitle: "BMW X7 or similar",
+    title: "2025 Lincoln Navigator L Reserve",
+    subtitle: "or similar",
     seats: 7,
     suitcases: 4,
     transmission: "Automatic",
-    image: "/assets/cars/x7.png",
-    desc: "Bring everyone together with extra seating and comfort."
+    image: "/assets/catalog/catalog_page_36.png",
+    desc: "Effortless American luxury"
   },
   {
-    title: "LUXURY CONVERTIBLE",
-    subtitle: "BMW Z4 Convertible or similar",
-    seats: 2,
-    suitcases: 2,
+    title: "2025 Cadillac Escalade ESV Premium Luxury",
+    subtitle: "or similar",
+    seats: 7,
+    suitcases: 4,
     transmission: "Automatic",
-    image: "/assets/cars/z4.png",
-    desc: "Stylish open-air drives with premium comfort."
+    image: "/assets/catalog/catalog_page_18.png",
+    desc: "High-tech, prestige and style"
   },
   {
-    title: "LUXURY ELECTRIC VEHICLE",
-    subtitle: "GMC Hummer or similar",
-    seats: 5,
-    suitcases: 3,
-    transmission: "Range ~303 mi",
-    image: "/assets/cars/hummer.png",
-    desc: "Discover advanced tech with powerful electric driving."
+    title: "2025 Cadillac Escalade ESV Luxury",
+    subtitle: "or similar",
+    seats: 7,
+    suitcases: 4,
+    transmission: "Automatic",
+    image: "/assets/catalog/catalog_page_24.png",
+    desc: "The cultural Icon"
   },
   {
-    title: "LUXURY SEDANS",
-    subtitle: "BMW 7 Series or similar",
+    title: "2026 Cadillac Escalade",
+    subtitle: "or similar",
+    seats: 7,
+    suitcases: 4,
+    transmission: "Automatic",
+    image: "/assets/catalog/catalog_page_24.png",
+    desc: "Gold standard of American luxury"
+  },
+  {
+    title: "2025 Mercedes-Benz GLS 450",
+    subtitle: "or similar",
+    seats: 7,
+    suitcases: 4,
+    transmission: "Automatic",
+    image: "/assets/catalog/catalog_page_12.png",
+    desc: "Beautiful and Refined"
+  },
+  {
+    title: "2026 Mercedes-Maybach GLS 600",
+    subtitle: "or similar",
     seats: 5,
     suitcases: 4,
     transmission: "Automatic",
-    image: "/assets/cars/7_series.png",
-    desc: "Relax with refined comfort and modern features."
+    image: "/assets/catalog/catalog_page_3.png",
+    desc: "Pinnacle of motoring"
   },
   {
-    title: "LUXURY SPORTS CAR",
-    subtitle: "BMW 8 Series or similar",
-    seats: 4,
-    suitcases: 3,
+    title: "2026 GMC Yukon XL Elevation",
+    subtitle: "or similar",
+    seats: 8,
+    suitcases: 4,
     transmission: "Automatic",
-    image: "/assets/cars/sports_car.png",
-    desc: "Combine high performance with premium comfort."
+    image: "/assets/catalog/catalog_page_27.png",
+    desc: "Bold style meets adventure"
+  },
+  {
+    title: "2026 GMC Yukon XL Denali",
+    subtitle: "or similar",
+    seats: 7,
+    suitcases: 4,
+    transmission: "Automatic",
+    image: "/assets/catalog/catalog_page_30.png",
+    desc: "Professional-grade luxury"
+  },
+  {
+    title: "2026 Chevrolet Suburban RST",
+    subtitle: "or similar",
+    seats: 8,
+    suitcases: 4,
+    transmission: "Automatic",
+    image: "/assets/catalog/catalog_page_33.png",
+    desc: "Street-smart style"
+  },
+  {
+    title: "2026 BMW X7 xDrive40i",
+    subtitle: "or similar",
+    seats: 6,
+    suitcases: 4,
+    transmission: "Automatic",
+    image: "/assets/catalog/catalog_page_15.png",
+    desc: "The Ultimate Driving Machine"
   }
 ];
 
@@ -535,15 +571,15 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
 
           {/* Right Side: Text & Actions */}
           <div className="w-full md:w-[50%] flex flex-col items-center md:items-start text-center md:text-left z-10">
-            {/* Subtitle Badge */}
-            <span className="text-[11px] md:text-[12px] font-bold text-[#C5A059] uppercase tracking-widest mb-1 block">
-              {activeCar.subtitle}
-            </span>
-
             {/* Title */}
-            <h2 className="font-sans font-bold text-[25px] text-[#191919] tracking-tight uppercase leading-tight mb-2">
+            <h2 className="font-sans font-bold text-[22px] md:text-[26px] text-[#191919] tracking-tight uppercase leading-tight">
               {activeCar.title}
             </h2>
+
+            {/* Subtitle Badge (smaller beige text) */}
+            <span className="text-[12px] md:text-[13px] font-semibold text-[#C5A059] mb-3 block">
+              {activeCar.subtitle}
+            </span>
 
             {/* Specs Badges Row */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 text-[11px] font-bold text-neutral-800 mb-3 w-full">
@@ -602,9 +638,9 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
           {/* Right chevron arrow positioned outside in right margin */}
           <button
             type="button"
-            onClick={() => setThumbStartIdx(prev => Math.min(2, prev + 1))}
+            onClick={() => setThumbStartIdx(prev => Math.min(6, prev + 1))}
             className={`hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
-              thumbStartIdx === 2 ? 'opacity-30 pointer-events-none' : 'opacity-100 hover:scale-110'
+              thumbStartIdx === 6 ? 'opacity-30 pointer-events-none' : 'opacity-100 hover:scale-110'
             }`}
             aria-label="Next thumbnails"
           >
@@ -639,10 +675,11 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
                     </div>
 
                     {/* Thumbnail Title */}
-                    <h3 className="font-condensed font-bold text-[12px] text-neutral-800 uppercase tracking-wide leading-tight text-center mb-0.5 line-clamp-1">
+                    <h3 className="font-condensed font-bold text-[12px] text-neutral-800 uppercase tracking-wide leading-tight text-center line-clamp-1">
                       {item.title}
                     </h3>
-                    <span className="text-[10px] text-neutral-400 block mb-1.5 text-center line-clamp-1">
+                    {/* Thumbnail Subtitle */}
+                    <span className="text-[10px] text-[#C5A059] font-semibold block mb-1.5 text-center line-clamp-1">
                       {item.subtitle}
                     </span>
 
@@ -1638,7 +1675,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 playsInline
                 className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none z-0"
               >
-                <source src="/assets/bg-video3.mp4" type="video/mp4" />
+                <source src="/assets/SuburbanDay_web.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
 
@@ -2188,7 +2225,9 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   Why <br /> <span className="whitespace-nowrap"><span className="text-[#C5A059]">W</span> Luxury</span>
                 </h2>
                 <p className="text-[#191919]/80 text-[13px] leading-[1.6] font-normal pr-2">
-                  W Luxury is a next-generation rental car service that makes driving as convenient as it is luxurious. Pick a vehicle from our exclusive fleet, get it delivered to your doorstep, and drive off in a W Luxury car.
+                  &quot;Where motion becomes an art form.&quot;
+                  <br /><br />
+                  Experience our hand-selected fleet of premium marques, curated and maintained to absolute perfection. Reserve through an intuitive online concierge and have your vehicle white-glove delivered to your residence with absolute discretion and ultimate convenience.
                 </p>
               </div>
 
@@ -2209,9 +2248,9 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
                   {/* Top Text Content */}
                   <div className="relative z-10 mt-2">
-                    <h3 className="text-[20px] md:text-[22px] font-bold text-white mb-3 leading-[1.2] tracking-wide uppercase">Door-to-Door<br/>Delivery</h3>
+                    <h3 className="text-[20px] md:text-[22px] font-bold text-white mb-3 leading-[1.2] tracking-wide uppercase">White-Glove Delivery & Collection</h3>
                     <p className="text-white/70 text-[14px] leading-[1.4] max-w-[90%] font-light">
-                      W Luxury delivers and picks up your vehicle wherever you are, on your schedule.
+                      Our concierge discreetly delivers your vehicle directly to your residence and retrieves it at your convenience, ensuring a perfectly seamless experience from start to finish.
                     </p>
                   </div>
 
@@ -2228,9 +2267,9 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   {/* Top Small Card */}
                   <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[110px]">
                     <div className="relative z-10 w-[80%]">
-                      <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">Fair Toll + Fuel Plan</h3>
+                      <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">Transparent Fuel & Toll Management </h3>
                       <p className="text-[#191919]/70 text-[13px] leading-[1.5]">
-                        Pay only for what you use.<br />No surprise surcharges.
+                        Focus on your drive. We handle all tolls during your journey and gracefully refuel the marque upon its return, managed transparently at standard market rates.
                       </p>
                     </div>
                     <div className="relative z-10 mt-4">
@@ -2250,9 +2289,9 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   {/* Bottom Small Card */}
                   <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[110px]">
                     <div className="relative z-10">
-                      <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">The Car You Want.<br />The Car You Need</h3>
+                      <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">THE ULTIMATE GARAGE</h3>
                       <p className="text-[#191919]/70 text-[13px] leading-[1.5] max-w-[90%]">
-                        Only the best: Range Rover, Porsche, BMW, Mercedes, Jaguar, or Maserati.
+                        An elite assembly of the world's most coveted marques—from Range Rover and Maybach to Rolls-Royce—tailored entirely to your distinction.
                       </p>
                     </div>
                     <div className="relative z-10 mt-4">
@@ -2267,7 +2306,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           </div>
 
           {/* Section 5: W LUXURY CAR RENTAL WORLDWIDE Carousel */}
-          <BoutiqueCarousel />
+          {/* <BoutiqueCarousel /> */}
 
           {/* Section 6: WHERE WOULD YOU LIKE TO START FROM? */}
           <div className="w-full bg-[#f4f4f4] text-neutral-900 py-16 md:py-24 px-4 md:px-0 relative z-10 border-t border-neutral-200">
@@ -2329,7 +2368,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </h2>
                 
                 <p className="text-[14px] md:text-[15px] text-neutral-500 font-sans leading-relaxed mb-0">
-                  Skip standard rental counters. We offer premium door-to-door vehicle pickup and drop-off services throughout the five boroughs of NYC and major surrounding airports. Our concierge team delivers your selected vehicle directly to your hotel, office, private airport FBO, or residence.
+                  Skip the rental counter. Elevate your journey with our bespoke door-to-door delivery service, covering the five boroughs of NYC and all major surrounding airports. Our dedicated concierge team seamlessly delivers your vehicle directly to your private FBO, hotel, office, or residence for ultimate convenience.
                 </p>
               </div>
 
@@ -2359,7 +2398,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             ];
 
             return (
-              <div className="w-full bg-white text-neutral-900 py-20 px-4 md:px-0 relative z-10 border-t border-neutral-100 overflow-hidden">
+              <div id="faq-section" className="w-full bg-white text-neutral-900 py-20 px-4 md:px-0 relative z-10 border-t border-neutral-100 overflow-hidden">
                 <RevealOnScroll className="w-full md:w-[90%] mx-auto text-center">
                   <h2
                     style={{ lineHeight: "1.2" }}
@@ -2441,88 +2480,15 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 
                 {/* Live Instagram Feed / Fallback Static Images */}
                 <div className="w-full md:w-[72%] flex gap-3 overflow-x-auto no-scrollbar pb-4 pr-6 pl-0 md:pl-4">
-                  {instagramLoading ? (
-                    // Loading skeleton placeholders
-                    Array.from({ length: 5 }).map((_, idx) => (
-                      <div
-                        key={`skeleton-${idx}`}
-                        className="flex-shrink-0 w-[200px] h-[240px] bg-neutral-100 rounded-[16px] animate-pulse"
+                  {Array.from({ length: 36 }, (_, i) => `/assets/catalog/catalog_page_${i + 2}.png`).map((img, idx) => (
+                    <div key={idx} className="flex-shrink-0 w-[320px] h-[215px] rounded-[16px] overflow-hidden shadow-md relative group cursor-pointer bg-neutral-100">
+                      <img
+                        src={img}
+                        alt="Catalog Photo"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-neutral-100"
                       />
-                    ))
-                  ) : instagramReels.length > 0 ? (
-                    // Dynamic Instagram iframes
-                    instagramReels.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex-shrink-0 w-[200px] h-[240px] rounded-[16px] overflow-hidden shadow-md bg-neutral-100 relative group cursor-pointer"
-                      >
-                        {item.media_type === 'VIDEO' ? (
-                          // Video reel — show thumbnail with play icon, click opens permalink
-                          <a
-                            href={item.permalink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full h-full"
-                          >
-                            <img
-                              src={item.thumbnail_url || item.media_url}
-                              alt="Instagram Reel"
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            {/* Play icon overlay */}
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
-                              <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                                <svg className="w-5 h-5 text-[#C5A059] ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M8 5v14l11-7z" />
-                                </svg>
-                              </div>
-                            </div>
-                            {/* Reel label */}
-                            <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                              Reel
-                            </div>
-                          </a>
-                        ) : (
-                          // Photo post
-                          <a
-                            href={item.permalink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full h-full"
-                          >
-                            <img
-                              src={item.media_url}
-                              alt="Instagram Post"
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                          </a>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    // Fallback static images when API is unavailable
-                    [
-                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/074/original/326f274ea93a21b59d8e7d6cec60066b.jpg",
-                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/077/original/b594a823867b73049cabcdb53bac0c33.jpg",
-                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/010/original/06aaeff587d0d47f0de18343d7c3b2ef.jpg",
-                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/010/original/a28563d1cae7ddc14cf36f62b81f356c.jpg",
-                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/011/original/273f1afb63faba2172f69c9e702deaa3.jpg",
-                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/011/original/22557b4957d09fc6eca26d24080e23b1.jpg",
-                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/012/original/279dcf72ecf2b72dfcf7c2cf0bff188a.jpg",
-                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/012/original/7f74bcb2a9e9fb9d57364ac3625bace5.jpg"
-                    ].map((img, idx) => (
-                      <div key={idx} className="flex-shrink-0 w-[200px] h-[240px] rounded-[16px] overflow-hidden">
-                        <img
-                          src={img}
-                          alt="Instagram Photo"
-                          className="w-full h-full object-cover bg-neutral-100"
-                          onError={(e) => {
-                            e.target.src = "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=400";
-                          }}
-                        />
-                      </div>
-                    ))
-                  )}
+                    </div>
+                  ))}
                 </div>
               </RevealOnScroll>
             </div>
@@ -2544,19 +2510,23 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 <div className="flex flex-col gap-3.5 text-left">
                   {[
                     { label: 'FAQ', highlight: false },
-                    { label: 'BONUS PROGRAM', highlight: true },
                     { label: 'CONTACT US', highlight: false },
-                    { label: 'RENTAL CAR DELIVERY IN MIAMI', highlight: false },
-                    { label: 'ONE-WAY CAR RENTAL', highlight: false },
-                    { label: 'LONG-TERM CAR RENTAL', highlight: false },
+                    { label: 'TERMS & CONDITIONS', highlight: false },
+                    { label: 'PRIVACY POLICY', highlight: false },
                   ].map(({ label, highlight }) => (
                     <a
                       key={label}
-                      href={label === 'CONTACT US' ? '#instagram-section' : '#'}
+                      href={
+                        label === 'CONTACT US' ? '#instagram-section' :
+                        label === 'FAQ' ? '#faq-section' : '#'
+                      }
                       onClick={(e) => {
                         if (label === 'CONTACT US') {
                           e.preventDefault();
                           document.getElementById('instagram-section')?.scrollIntoView({ behavior: 'smooth' });
+                        } else if (label === 'FAQ') {
+                          e.preventDefault();
+                          document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
                         }
                       }}
                       className={`text-[11px] font-semibold tracking-wider uppercase transition-colors ${highlight ? 'text-[#C5A059] hover:text-[#d4b472]' : 'text-neutral-300 hover:text-white'}`}
@@ -2566,28 +2536,10 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   ))}
                 </div>
 
-                {/* Column 2 - Legal & Info */}
-                <div className="flex flex-col gap-3.5 text-left">
-                  {[
-                    'TERMS & CONDITIONS',
-                    'PRIVACY POLICY',
-                    'REVIEWS',
-                    'VACANCIES',
-                  ].map((label) => (
-                    <a
-                      key={label}
-                      href="#"
-                      className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors"
-                    >
-                      {label}
-                    </a>
-                  ))}
-                </div>
-
                 {/* Column 3 – Contact & Socials */}
                 <div className="flex flex-col gap-4 text-left">
-                  <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
-                    HELLO@WLUXURY.NYC
+                  <a href="mailto:HELLO@WLUXURYRENTAL.COM" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
+                    HELLO@WLUXURYRENTAL.COM
                   </a>
                   <a href="tel:+17182133279" className="text-[13px] font-semibold text-neutral-300 hover:text-white transition-colors">
                     (718) 213-3279
@@ -2651,10 +2603,24 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               </div>
 
               {/* Bottom bar */}
-              <div className="border-t border-neutral-800 pt-6">
+              <div className="border-t border-neutral-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <p className="text-[9px] font-medium tracking-widest uppercase text-neutral-500">
                   © 2026 W LUXURY CAR RENTAL. ALL RIGHTS RESERVED.
                 </p>
+                <a
+                  href="http://zumbyte.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[9px] font-medium tracking-widest uppercase text-neutral-500 hover:text-white transition-colors group"
+                >
+                  <span>Site by</span>
+                  <span className="font-bold group-hover:text-[#C5A059] transition-colors">Zumbyte</span>
+                  <img
+                    src="/assets/logos/zumbyte.png"
+                    alt="Zumbyte Logo"
+                    className="w-4 h-4 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                  />
+                </a>
               </div>
             </div>
           </footer>
